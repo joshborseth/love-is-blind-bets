@@ -3,14 +3,6 @@
 import "sst"
 declare module "sst" {
   export interface Resource {
-    "AfterBucket": {
-      "name": string
-      "type": "sst.aws.Bucket"
-    }
-    "BeforeBucket": {
-      "name": string
-      "type": "sst.aws.Bucket"
-    }
     "DB_KEY": {
       "type": "sst.sst.Secret"
       "value": string
