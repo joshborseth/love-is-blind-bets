@@ -1,10 +1,16 @@
 <script lang="ts">
 	import { ContestantCard } from '@/components/custom/ContestantCard';
+	import { contestants } from '../lib/constants/contestants';
 </script>
 
-<div class="flex h-screen w-screen justify-center items-center">
-	<div class="flex gap-4">
-		<ContestantCard name="Benny" job="Baker" gender="Male" imageUrl="" age={4} />
-		<ContestantCard name="Jerry" job="Slayer" gender="Female" imageUrl="" age={2} />
-	</div>
-</div>
+<section class="grid md:grid-cols-2 grid-cols-1 gap-4 p-4 bg-background">
+	{#each contestants as contestant}
+		<ContestantCard
+			name={contestant.name}
+			job={contestant.occupation}
+			gender={contestant.gender === 'M' ? 'Male' : 'Female'}
+			imageUrl={contestant.img}
+			age={Number(contestant.age)}
+		/>
+	{/each}
+</section>
