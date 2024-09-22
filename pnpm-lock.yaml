@@ -2267,7 +2267,6 @@ packages:
 
   libsql@0.4.4:
     resolution: {integrity: sha512-Ub1YDlfAKOst9xoHMOb1dhgcu8qkMP6IM+xZoEptQuPtFe+w3ShRvJMa9FvI7FI5EEG/B4FXLLXPS9utMQq5xQ==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:

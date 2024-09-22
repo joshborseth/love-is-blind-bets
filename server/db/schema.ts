@@ -3,7 +3,10 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const contestants = sqliteTable('contestants', {
 	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-	gender: text('gender', { enum: ['male', 'female'] }).notNull()
+	gender: text('gender', { enum: ['male', 'female'] }).notNull(),
+	job: text('job').notNull(),
+	name: text('name').notNull(),
+	imageUrl: text('imageUrl').notNull()
 });
 
 export const matches = sqliteTable('matches', {

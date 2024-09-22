@@ -4,6 +4,6 @@
 </script>
 
 <Toaster />
-<main>
+<div class="h-screen w-screen bg-background">
 	<slot />
-</main>
+</div>

@@ -48,7 +48,9 @@ const config = {
 				card: {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
-				}
+				},
+				male: 'hsl(229, 100%, 44%)',
+				female: 'hsl(330 , 100% , 55%)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
