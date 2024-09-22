@@ -11,6 +11,7 @@
 			gender={contestant.gender === 'M' ? 'Male' : 'Female'}
 			imageUrl={contestant.img}
 			age={Number(contestant.age)}
+			desc={contestant.desc}
 		/>
 	{/each}
 </section>
