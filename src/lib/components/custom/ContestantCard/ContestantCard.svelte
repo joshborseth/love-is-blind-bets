@@ -4,6 +4,7 @@
 	import * as Card from '@/components/ui/card';
 	import { cn } from '@/utils';
 	import { buttonVariants } from '@/components/ui/button';
+	import { ScrollArea } from '@/components/ui/scroll-area';
 	export let name: String;
 	export let job: string;
 	export let gender: 'Male' | 'Female';
@@ -35,7 +36,7 @@
 		</div>
 		<Dialog.Root>
 			<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>View</Dialog.Trigger>
-			<Dialog.Content class="max-w-2xl">
+			<Dialog.Content>
 				<Dialog.Header>
 					<div class="flex gap-3 items-center">
 						<Dialog.Title class="text-2xl">{name}</Dialog.Title>
@@ -48,13 +49,15 @@
 							{gender}
 						</Badge>
 					</div>
-					<div>
+					<div class="text-left">
 						<Dialog.Description>{job}</Dialog.Description>
 						<Dialog.Description>{age} years old</Dialog.Description>
 					</div>
 				</Dialog.Header>
-				<div class="flex justify-between">
-					<Dialog.Description class="max-w-xs text-xs">{desc}</Dialog.Description>
+				<div class="flex justify-between flex-col-reverse gap-4 sm:flex-row">
+					<ScrollArea class="h-60"
+						><Dialog.Description class="max-w-xs text-xs pr-3">{desc}</Dialog.Description>
+					</ScrollArea>
 					<img
 						src={imageUrl}
 						alt={`${name}`}
