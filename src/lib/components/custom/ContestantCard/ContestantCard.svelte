@@ -18,7 +18,6 @@
 		<div class="flex flex-col gap-1">
 			<div class="flex w-full items-center justify-between">
 				<Card.Title>{name}</Card.Title>
-
 				<Badge
 					class={cn(
 						gender === 'Male' ? 'bg-male hover:bg-male' : 'bg-female hover:bg-female',

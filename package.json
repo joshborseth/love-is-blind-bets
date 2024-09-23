@@ -15,7 +15,8 @@
 		"test:unit": "vitest",
 		"db": "sst shell drizzle-kit",
 		"db:studio": "sst shell drizzle-kit studio",
-		"db:push": "sst shell drizzle-kit push"
+		"db:push": "sst shell drizzle-kit push",
+		"sso": "aws sso login --sso-session=joshjedworkings"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
