@@ -4,7 +4,7 @@
 export default $config({
 	app(input) {
 		return {
-			name: 'love-is-blind',
+			name: 'love-is-blind-betting',
 			removal: input?.stage === 'production' ? 'retain' : 'remove',
 			home: 'aws',
 			providers: {
