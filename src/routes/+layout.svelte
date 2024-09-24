@@ -4,4 +4,6 @@
 </script>
 
 <Toaster />
-<slot />
+<div class="bg-background min-h-screen text-foreground">
+	<slot />
+</div>

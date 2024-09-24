@@ -38,7 +38,7 @@
 			<Dialog.Content>
 				<Dialog.Header>
 					<div class="flex gap-3 items-center">
-						<Dialog.Title class="text-2xl">{name}</Dialog.Title>
+						<Dialog.Title class="text-2xl text-foreground">{name}</Dialog.Title>
 						<Badge
 							class={cn(
 								gender === 'Male' ? 'bg-male hover:bg-male' : 'bg-female hover:bg-female',

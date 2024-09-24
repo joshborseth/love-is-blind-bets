@@ -5,6 +5,10 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
+    "CLERK_SECRET_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "DB_KEY": {
       "type": "sst.sst.Secret"
       "value": string
@@ -13,8 +17,17 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "PUBLIC_CLERK_PUBLISHABLE_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "Web": {
       "type": "sst.aws.SvelteKit"
+      "url": string
+    }
+    "seedContestants": {
+      "name": string
+      "type": "sst.aws.Function"
       "url": string
     }
   }

@@ -1,4 +1,7 @@
-export const contestants = [
+import { db } from '../../db';
+import { femaleContestants, maleContestants } from '../../db/schema';
+
+const contestants = [
 	{
 		img: 'https://dnm.nflximg.net/api/v6/2DuQlx0fM4wd1nzqm5BFBi6ILa8/AAAAQf4mtA2CUDB0a7uJbOz-GT0Bv5Djf5_-iIUgrJsXErJFqaB30PtWLEQaB4MGC1Yer-lL42fgArRwO6k3MI9-cZiOgi5n_zfbL4S_Cmy8L-S50RLL9jYcJIaH62neNHAb4IpLNpLl1FuT9F4EpeD0Q6qS.jpg?r=cf4',
 		name: 'Bohdan',
@@ -232,3 +235,44 @@ export const contestants = [
 		gender: 'F'
 	}
 ] as const;
+
+export const handler = async () => {
+	const retrievedMaleContestants = await db.query.maleContestants.findMany();
+	const retrievedFemaleContestants = await db.query.femaleContestants.findMany();
+
+	if (retrievedMaleContestants.length || retrievedFemaleContestants.length) {
+		return {
+			statusCode: 400,
+			body: 'Contestants already seeded'
+		};
+	}
+
+	const maleContestantsToInsert = contestants
+		.filter((c) => c.gender === 'M')
+		.map((c) => ({
+			age: Number(c.age),
+			job: c.occupation,
+			name: c.name,
+			description: c.desc,
+			imageUrl: c.img
+		})) satisfies Array<typeof maleContestants.$inferInsert>;
+
+	const femaleContestantsToInsert = contestants
+		.filter((c) => c.gender === 'F')
+		.map((c) => ({
+			age: Number(c.age),
+			job: c.occupation,
+			name: c.name,
+			description: c.desc,
+			imageUrl: c.img
+		})) satisfies Array<typeof femaleContestants.$inferInsert>;
+
+	await db.insert(maleContestants).values(maleContestantsToInsert);
+	await db.insert(femaleContestants).values(femaleContestantsToInsert);
+
+	console.log('Contestants seeded');
+	return {
+		statusCode: 200,
+		body: 'Contestants seeded'
+	};
+};

@@ -1,11 +1,21 @@
 import { relations } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const contestants = sqliteTable('contestants', {
+export const femaleContestants = sqliteTable('femaleContestants', {
 	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
-	gender: text('gender', { enum: ['male', 'female'] }).notNull(),
+	age: integer('age').notNull(),
 	job: text('job').notNull(),
 	name: text('name').notNull(),
+	description: text('description').notNull(),
+	imageUrl: text('imageUrl').notNull()
+});
+
+export const maleContestants = sqliteTable('maleContestants', {
+	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+	age: integer('age').notNull(),
+	job: text('job').notNull(),
+	name: text('name').notNull(),
+	description: text('description').notNull(),
 	imageUrl: text('imageUrl').notNull()
 });
 
@@ -17,12 +27,12 @@ export const matches = sqliteTable('matches', {
 });
 
 export const matchesRelations = relations(matches, ({ one }) => ({
-	maleContestant: one(contestants, {
+	maleContestant: one(maleContestants, {
 		fields: [matches.maleContestantId],
-		references: [contestants.id]
+		references: [maleContestants.id]
 	}),
-	femaleContestant: one(contestants, {
+	femaleContestant: one(femaleContestants, {
 		fields: [matches.femaleContestantId],
-		references: [contestants.id]
+		references: [femaleContestants.id]
 	})
 }));
