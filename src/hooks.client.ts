@@ -3,8 +3,8 @@ import type { HandleClientError } from '@sveltejs/kit';
 import { initializeClerkClient } from 'clerk-sveltekit/client';
 
 initializeClerkClient(PUBLIC_CLERK_PUBLISHABLE_KEY, {
-	afterSignInUrl: '/admin/',
-	afterSignUpUrl: '/admin/',
+	afterSignInUrl: '/app/',
+	afterSignUpUrl: '/app/',
 	signInUrl: '/auth/sign-in',
 	signUpUrl: '/auth/sign-up'
 });

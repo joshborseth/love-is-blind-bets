@@ -8,4 +8,5 @@
 			colorPrimary: 'hsl(262.1 83.3% 57.8%)'
 		}
 	}}
+	redirectUrl="/app"
 />
