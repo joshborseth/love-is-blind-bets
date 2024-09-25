@@ -11,8 +11,6 @@
 		</h1>
 		<p>Oops! Something went wrong.</p>
 		<div class="py-2" />
-		<Button on:click={() => window.history.back()} variant="secondary" class="w=full"
-			>Go Back</Button
-		>
+		<Button on:click={() => window.history.back()} class="w-full">Go Back</Button>
 	</div>
 </div>

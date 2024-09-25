@@ -4,12 +4,30 @@
 	import * as Popover from '$lib/components/ui/popover';
 	import { buttonVariants } from '@/components/ui/button';
 	import Separator from '@/components/ui/separator/separator.svelte';
+	import { page } from '$app/stores';
+	import { cn } from '@/utils';
 </script>
 
 <header class="h-20 border-b-border border-b bg-background flex justify-center">
 	<div class="max-w-7xl p-6 flex w-full items-center justify-between">
-		<nav>
-			<p class="text-2xl font-bold">Love is Blind Fantasy League</p>
+		<nav class="hidden md:flex gap-3 items-center text-sm">
+			<a
+				href="/app"
+				class={buttonVariants({
+					variant: 'link',
+					class: cn('text-muted-foreground pl-0', $page.url.pathname === '/app' && 'font-bold')
+				})}>Dashboard</a
+			>
+			<a
+				href="/app/leaderboard"
+				class={buttonVariants({
+					variant: 'link',
+					class: cn(
+						'text-muted-foreground',
+						$page.url.pathname === '/app/leaderboard' && 'font-bold'
+					)
+				})}>Leaderboard</a
+			>
 		</nav>
 		<SignedIn let:user>
 			{#if user}
@@ -25,7 +43,11 @@
 							/>
 						</Popover.Trigger>
 						<Popover.Content class="flex flex-col gap-4">
-							<span class="text-xs text-muted-foreground">{user.primaryEmailAddress}</span>
+							<div class="flex flex-col gap-1">
+								<span class="font-medium text-sm">{user.username}</span>
+								<span class="text-xs text-muted-foreground">{user.fullName}</span>
+								<span class="text-xs text-muted-foreground">{user.primaryEmailAddress}</span>
+							</div>
 							<Separator />
 							<SignOutButton
 								signOutCallback={() => (location.href = '/auth/sign-in')}
@@ -38,4 +60,8 @@
 		</SignedIn>
 	</div>
 </header>
-<slot />
+<main class="w-full flex justify-center">
+	<div class="max-w-7xl w-full p-6">
+		<slot />
+	</div>
+</main>

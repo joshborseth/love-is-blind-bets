@@ -6,7 +6,7 @@
 </script>
 
 <div class="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px] h-screen">
-	<div class="flex items-center justify-center py-12 h-full">
+	<div class="flex items-center relative justify-center py-12 h-full">
 		<slot />
 	</div>
 
