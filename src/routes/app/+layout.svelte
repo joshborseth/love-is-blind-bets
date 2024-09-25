@@ -2,14 +2,15 @@
 	import SignedIn from 'clerk-sveltekit/client/SignedIn.svelte';
 	import SignOutButton from 'clerk-sveltekit/client/SignOutButton.svelte';
 	import * as Popover from '$lib/components/ui/popover';
-	import { Button, buttonVariants } from '@/components/ui/button';
+	import { buttonVariants } from '@/components/ui/button';
 	import Separator from '@/components/ui/separator/separator.svelte';
-	import { redirect } from '@sveltejs/kit';
 </script>
 
 <header class="h-20 border-b-border border-b bg-background flex justify-center">
 	<div class="max-w-7xl p-6 flex w-full items-center justify-between">
-		<nav></nav>
+		<nav>
+			<p class="text-2xl font-bold">Love is Blind Fantasy League</p>
+		</nav>
 		<SignedIn let:user>
 			{#if user}
 				<div class="flex gap-2 items-center">

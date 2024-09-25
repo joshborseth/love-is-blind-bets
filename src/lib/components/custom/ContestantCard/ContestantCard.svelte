@@ -11,9 +11,10 @@
 	export let imageUrl: string;
 	export let age: number;
 	export let desc: string;
+	export let roughEdges: boolean = false;
 </script>
 
-<Card.Root class="flex justify-between max-w-lg">
+<Card.Root class={cn('flex justify-between max-w-lg', roughEdges && 'border-0 shadow-none')}>
 	<Card.Header class="w-full lg:p-6 p-4 space-y-0 pb-3 justify-between">
 		<div class="flex flex-col gap-1">
 			<div class="flex w-full items-center justify-between">
@@ -62,13 +63,19 @@
 						alt={`${name}`}
 						width={200}
 						height={300}
-						class="rounded-md object-cover"
+						class="rounded-md object-cover h-full"
 					/>
 				</div>
 			</Dialog.Content>
 		</Dialog.Root>
 	</Card.Header>
 	<Card.Content class="p-0">
-		<img src={imageUrl} alt={`${name}`} width={200} height={300} class="rounded-md object-cover" />
+		<img
+			src={imageUrl}
+			alt={`${name}`}
+			width={200}
+			height={300}
+			class="rounded-r-md object-cover h-full"
+		/>
 	</Card.Content>
 </Card.Root>

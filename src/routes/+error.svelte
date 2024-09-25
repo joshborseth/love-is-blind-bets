@@ -1,13 +1,18 @@
-<script>
-	import { buttonVariants } from '@/components/ui/button';
-	import { cn } from '@/utils';
+<script lang="ts">
+	import { Button } from '@/components/ui/button';
+	import { page } from '$app/stores';
 </script>
 
 <div class="flex justify-center items-center h-screen w-screen">
 	<div class="flex flex-col gap-2 items-center">
-		<h1 class="text-3xl font-bold">404 Not Found</h1>
-		<p class="text-xl">Sorry, we couldn't find that page.</p>
+		<h1 class="text-3xl font-bold">
+			{$page.status}
+			{$page.error?.message ?? 'Something Went Wrong'}
+		</h1>
+		<p>Oops! Something went wrong.</p>
 		<div class="py-2" />
-		<a href="/" class={cn(buttonVariants({ variant: 'secondary' }), 'w-full')}> Go Back </a>
+		<Button on:click={() => window.history.back()} variant="secondary" class="w=full"
+			>Go Back</Button
+		>
 	</div>
 </div>
