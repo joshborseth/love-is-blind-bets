@@ -19,14 +19,14 @@
 				})}>Dashboard</a
 			>
 			<a
-				href="/app/leaderboard"
+				href="/app/scoreboard"
 				class={buttonVariants({
 					variant: 'link',
 					class: cn(
 						'text-muted-foreground',
-						$page.url.pathname === '/app/leaderboard' && 'font-bold'
+						$page.url.pathname === '/app/scoreboard' && 'font-bold'
 					)
-				})}>Leaderboard</a
+				})}>Scoreboard</a
 			>
 		</nav>
 		<SignedIn let:user>
