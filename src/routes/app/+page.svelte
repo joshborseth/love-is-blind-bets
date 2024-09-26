@@ -72,6 +72,18 @@
 		</div>
 		<div class="flex max-w-xl items-center gap-8 justify-center w-full">
 			<div class="flex flex-col gap-4">
+				<div class="h-5">
+					{#if selectedMale}
+						<h3
+							class="font-semibold text-xl"
+							in:fade={{ duration: 300 }}
+							out:fade={{ duration: 300 }}
+						>
+							{selectedMale.name}
+						</h3>
+					{/if}
+				</div>
+
 				<div class="w-52 h-96 border rounded-md">
 					{#if selectedMale}
 						<img
@@ -119,6 +131,18 @@
 			</Tooltip.Root>
 
 			<div class="flex flex-col gap-4">
+				<div class="h-5">
+					{#if selectedFemale}
+						<h3
+							class="font-semibold text-xl"
+							in:fade={{ duration: 300 }}
+							out:fade={{ duration: 300 }}
+						>
+							{selectedFemale.name}
+						</h3>
+					{/if}
+				</div>
+
 				<div class="w-52 h-96 border rounded-md">
 					{#if selectedFemale}
 						<img
