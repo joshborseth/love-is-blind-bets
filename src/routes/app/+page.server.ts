@@ -14,3 +14,10 @@ export const load = async (opts) => {
 
 	return { matches: matches.length ? matches : null };
 };
+
+export const actions = {
+	default: async ({ request }) => {
+		const result = await request.json();
+		console.log(result);
+	}
+};

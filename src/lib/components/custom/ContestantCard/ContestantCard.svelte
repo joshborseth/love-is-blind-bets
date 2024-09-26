@@ -3,7 +3,7 @@
 	import * as Dialog from '@/components/ui/dialog';
 	import * as Card from '@/components/ui/card';
 	import { cn } from '@/utils';
-	import { buttonVariants } from '@/components/ui/button';
+	import { Button, buttonVariants } from '@/components/ui/button';
 	import { ScrollArea } from '@/components/ui/scroll-area';
 	export let name: String;
 	export let job: string;
@@ -12,6 +12,9 @@
 	export let age: number;
 	export let desc: string;
 	export let roughEdges: boolean = false;
+	export let selected: boolean = false;
+	export let selectionAction: undefined | (() => void) = undefined;
+	export let clearSelection: undefined | (() => void) = undefined;
 </script>
 
 <Card.Root class={cn('flex justify-between max-w-lg', roughEdges && 'border-0 shadow-none')}>
@@ -34,8 +37,11 @@
 				<Card.Description class="text-xs">{age} years old</Card.Description>
 			</div>
 		</div>
+
 		<Dialog.Root>
-			<Dialog.Trigger class={buttonVariants({ variant: 'secondary' })}>View</Dialog.Trigger>
+			<Dialog.Trigger class={buttonVariants({ variant: 'secondary', size: 'sm' })}
+				>View</Dialog.Trigger
+			>
 			<Dialog.Content>
 				<Dialog.Header>
 					<div class="flex gap-3 items-center">
@@ -68,6 +74,14 @@
 				</div>
 			</Dialog.Content>
 		</Dialog.Root>
+		{#if selectionAction}
+			<Button
+				size="sm"
+				variant={!selected ? 'default' : 'destructive'}
+				on:click={!selected ? selectionAction : clearSelection}
+				>{!selected ? 'Select' : 'Clear'}</Button
+			>
+		{/if}
 	</Card.Header>
 	<Card.Content class="p-0">
 		<img
