@@ -75,12 +75,12 @@
 				<div class="h-5">
 					<div
 						class={cn(
-							'font-semibold text-xl transition-all duration-300 w-1/2 h-full',
+							'font-semibold text-xl transition-all duration-100 w-1/2 h-full',
 							!selectedMale && 'border-b'
 						)}
 					>
 						{#if selectedMale}
-							<h3 in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>
+							<h3 in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>
 								{selectedMale.name}
 							</h3>
 						{/if}
@@ -93,8 +93,8 @@
 							src={selectedMale.imageUrl}
 							alt={selectedMale.name}
 							class="object-cover h-full w-full rounded-md"
-							in:fade={{ duration: 300 }}
-							out:fade={{ duration: 300 }}
+							in:fade={{ duration: 100 }}
+							out:fade={{ duration: 100 }}
 						/>
 					{/if}
 				</div>
@@ -107,7 +107,7 @@
 					)}
 				>
 					{#if selectedMale}
-						<span in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>Clear</span>
+						<span in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>Clear</span>
 					{/if}
 				</Button>
 			</div>
@@ -137,12 +137,12 @@
 				<div class="h-5">
 					<div
 						class={cn(
-							'font-semibold text-xl transition-all duration-300 w-1/2 h-full',
+							'font-semibold text-xl transition-all duration-100 w-1/2 h-full',
 							!selectedFemale && 'border-b'
 						)}
 					>
 						{#if selectedFemale}
-							<h3 in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>
+							<h3 in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>
 								{selectedFemale.name}
 							</h3>
 						{/if}
@@ -155,8 +155,8 @@
 							src={selectedFemale.imageUrl}
 							alt={selectedFemale.name}
 							class="object-cover h-full w-full rounded-md"
-							in:fade={{ duration: 300 }}
-							out:fade={{ duration: 300 }}
+							in:fade={{ duration: 100 }}
+							out:fade={{ duration: 100 }}
 						/>
 					{/if}
 				</div>
@@ -170,7 +170,7 @@
 					)}
 				>
 					{#if selectedFemale}
-						<span in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>Clear</span>
+						<span in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>Clear</span>
 					{/if}</Button
 				>
 			</div>
