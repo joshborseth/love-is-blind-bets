@@ -35,11 +35,9 @@ export default $config({
 			handler: './server/scripts/seeds/contestants.handler',
 			url: true,
 			link: [DB_URL, DB_KEY, croppedHeadshots],
-			copyFiles: [
-				{
-					from: './server/scripts/seeds/alexandra.jpg'
-				}
-			]
+			copyFiles: (await import('./server/constants/contestants')).contestants.map((c) => ({
+				from: `./server/cropped-headshots/${c.nameAsFileName}.jpg`
+			}))
 		});
 		return {
 			seedContestantsFnUrl: seedContestantsFn.url
