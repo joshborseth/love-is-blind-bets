@@ -7,7 +7,8 @@ export const femaleContestants = sqliteTable('femaleContestants', {
 	job: text('job').notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
-	imageUrl: text('imageUrl').notNull()
+	imageUrl: text('imageUrl').notNull(),
+	headShotUrl: text('headShotUrl').notNull()
 });
 
 export const maleContestants = sqliteTable('maleContestants', {
@@ -16,7 +17,8 @@ export const maleContestants = sqliteTable('maleContestants', {
 	job: text('job').notNull(),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
-	imageUrl: text('imageUrl').notNull()
+	imageUrl: text('imageUrl').notNull(),
+	headShotUrl: text('headShotUrl').notNull()
 });
 
 export const matches = sqliteTable('matches', {

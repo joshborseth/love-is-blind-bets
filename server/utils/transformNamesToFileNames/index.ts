@@ -1,0 +1,1 @@
+export { transformNamesToFileNames } from './transformNamesToFileNames';
