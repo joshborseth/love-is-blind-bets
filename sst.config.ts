@@ -20,6 +20,10 @@ export default $config({
 		const PUBLIC_CLERK_PUBLISHABLE_KEY = new sst.Secret('PUBLIC_CLERK_PUBLISHABLE_KEY');
 		const CLERK_SECRET_KEY = new sst.Secret('CLERK_SECRET_KEY');
 
+		const croppedHeadshots = new sst.aws.Bucket('croppedHeadshots', {
+			access: 'public'
+		});
+
 		new sst.aws.SvelteKit('Web', {
 			link: [DB_URL, DB_KEY, PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY],
 			environment: {
@@ -30,7 +34,7 @@ export default $config({
 		const seedContestantsFn = new sst.aws.Function('seedContestants', {
 			handler: './server/scripts/seeds/contestants.handler',
 			url: true,
-			link: [DB_URL, DB_KEY]
+			link: [DB_URL, DB_KEY, croppedHeadshots]
 		});
 		return {
 			seedContestantsFnUrl: seedContestantsFn.url

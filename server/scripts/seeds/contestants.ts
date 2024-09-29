@@ -1,5 +1,7 @@
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { db } from '../../db';
 import { femaleContestants, maleContestants } from '../../db/schema';
+import { Resource } from 'sst';
 
 const contestants = [
 	{
@@ -254,7 +256,8 @@ export const handler = async () => {
 			job: c.occupation,
 			name: c.name,
 			description: c.desc,
-			imageUrl: c.img
+			imageUrl: c.img,
+			headShotUrl: ''
 		})) satisfies Array<typeof maleContestants.$inferInsert>;
 
 	const femaleContestantsToInsert = contestants
@@ -264,7 +267,8 @@ export const handler = async () => {
 			job: c.occupation,
 			name: c.name,
 			description: c.desc,
-			imageUrl: c.img
+			imageUrl: c.img,
+			headShotUrl: ''
 		})) satisfies Array<typeof femaleContestants.$inferInsert>;
 
 	await db.insert(maleContestants).values(maleContestantsToInsert);
@@ -276,3 +280,19 @@ export const handler = async () => {
 		body: 'Contestants seeded'
 	};
 };
+
+async function uploadToS3(file: Buffer, key: string) {
+	try {
+		const command = new PutObjectCommand({
+			Key: key,
+			Bucket: Resource.croppedHeadshots.name,
+			Body: file,
+			ContentType: 'image/jpeg'
+		});
+
+		await new S3Client().send(command);
+	} catch (err) {
+		console.error('Error uploading file to S3:', err);
+		throw err;
+	}
+}
