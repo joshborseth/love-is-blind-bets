@@ -17,20 +17,23 @@ export const handler = async () => {
 		};
 	}
 
-	const contestantsAfterHeadShotsUploaded = await map(contestants, async (c) => {
+	const contestantsAfterHeadShotsUploaded = await map(contestants, async (c, i) => {
 		const key = c.nameAsFileName;
 		const headShotImg = await fs.readFile(`server/cropped-headshots/${key}.jpg`);
 
 		const url = await uploadToS3(headShotImg, key);
 		return {
 			...c,
-			headShotUrl: url
+			headShotUrl: url,
+			//this is so that the id is static and the relations will be the same no matter how many times this data gets seeded
+			id: i + 1
 		};
 	});
 
 	const maleContestantsToInsert = contestantsAfterHeadShotsUploaded
 		.filter((c) => c.gender === 'M')
 		.map((c) => ({
+			id: c.id,
 			age: Number(c.age),
 			job: c.occupation,
 			name: c.name,
@@ -42,6 +45,7 @@ export const handler = async () => {
 	const femaleContestantsToInsert = contestantsAfterHeadShotsUploaded
 		.filter((c) => c.gender === 'F')
 		.map((c) => ({
+			id: c.id,
 			age: Number(c.age),
 			job: c.occupation,
 			name: c.name,
