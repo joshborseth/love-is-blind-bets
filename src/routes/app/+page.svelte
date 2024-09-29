@@ -1,179 +1,99 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import { ContestantCard } from '@/components/custom/ContestantCard';
-	import { Button } from '@/components/ui/button';
 	import * as Carousel from '@/components/ui/carousel';
 	import type { Contestants } from '@/types/contestants';
-	import { cn } from '@/utils';
-	import { Heart } from 'lucide-svelte';
-	import * as Tooltip from '@/components/ui/tooltip';
+	import Selections from './components/Selections.svelte';
+	import { ScrollArea } from '@/components/ui/scroll-area';
 	export let data;
-
 	let selectedMale: Contestants['maleContestants'][number] | null = null;
 	let selectedFemale: Contestants['femaleContestants'][number] | null = null;
+	let isLoading = false;
+	let setLoading = (value: boolean) => (isLoading = value);
+	let clearMaleSelection = () => (selectedMale = null);
+	let clearFemaleSelection = () => (selectedFemale = null);
 </script>
 
 <div class="flex flex-col gap-2">
-	<h1 class="text-3xl font-bold">Dashboard</h1>
-	<p class="text-muted-foreground font-light">
-		{#if !data.matches}
-			Get started below!
-		{:else}
-			This is where you can view your selected matches.
-		{/if}
-	</p>
+	<h1 class="text-3xl font-bold">Matches</h1>
+	<p class="text-muted-foreground font-light">Choose your matches below!</p>
 </div>
-{#if data.maleContestants && data.femaleContestants}
-	<section class="mx-auto py-10 bg-background flex items-center justify-between max-w-7xl w-full">
-		<div class="flex flex-col gap-20">
-			<Carousel.Root class="w-full max-w-md">
-				<Carousel.Content>
-					{#each data.maleContestants as item}
-						<Carousel.Item>
-							<ContestantCard
-								name={item.name}
-								job={item.job}
-								gender="Male"
-								imageUrl={item.imageUrl}
-								age={Number(item.age)}
-								desc={item.description}
-								selectionAction={() => (selectedMale = item)}
-								selected={selectedMale?.id === item.id}
-								clearSelection={() => (selectedMale = null)}
-							/>
-						</Carousel.Item>
-					{/each}
-				</Carousel.Content>
-				<Carousel.Previous class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto" />
-				<Carousel.Next class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto" />
-			</Carousel.Root>
-
-			<Carousel.Root class="w-full max-w-md">
-				<Carousel.Content>
-					{#each data.femaleContestants as item}
-						<Carousel.Item>
-							<ContestantCard
-								name={item.name}
-								job={item.job}
-								gender="Female"
-								imageUrl={item.imageUrl}
-								age={Number(item.age)}
-								desc={item.description}
-								selectionAction={() => (selectedFemale = item)}
-								selected={selectedFemale?.id === item.id}
-								clearSelection={() => (selectedFemale = null)}
-							/>
-						</Carousel.Item>
-					{/each}
-				</Carousel.Content>
-				<Carousel.Previous class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto" />
-				<Carousel.Next class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto" />
-			</Carousel.Root>
-		</div>
-		<div class="flex max-w-xl items-center gap-8 justify-center w-full">
-			<div class="flex flex-col gap-4">
-				<div class="h-5">
-					<div
-						class={cn(
-							'font-semibold text-xl transition-all duration-100 w-1/2 h-full',
-							!selectedMale && 'border-b'
-						)}
-					>
-						{#if selectedMale}
-							<h3 in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>
-								{selectedMale.name}
-							</h3>
-						{/if}
-					</div>
-				</div>
-
-				<div class="w-52 h-96 border rounded-md">
-					{#if selectedMale}
-						<img
-							src={selectedMale.imageUrl}
-							alt={selectedMale.name}
-							class="object-cover h-full w-full rounded-md"
-							in:fade={{ duration: 100 }}
-							out:fade={{ duration: 100 }}
+<section
+	class="mx-auto py-10 bg-background flex items-center gap-12 justify-between max-w-7xl w-full"
+>
+	<div class="flex flex-col gap-20">
+		<Carousel.Root class="w-full max-w-sm">
+			<Carousel.Content>
+				{#each data.maleContestants as item}
+					<Carousel.Item>
+						<ContestantCard
+							gender="Male"
+							contestant={item}
+							selectionAction={() => (selectedMale = item)}
+							selected={selectedMale?.id === item.id}
+							clearSelection={clearMaleSelection}
+							disabled={isLoading}
 						/>
-					{/if}
-				</div>
-				<Button
-					variant="secondary"
-					on:click={() => (selectedMale = null)}
-					disabled={!selectedMale}
-					class={cn(
-						'duration-500 transition-all disabled:bg-background disabled:opacity-100 disabled:border'
-					)}
-				>
-					{#if selectedMale}
-						<span in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>Clear</span>
-					{/if}
-				</Button>
+					</Carousel.Item>
+				{/each}
+			</Carousel.Content>
+			<Carousel.Previous
+				disabled={isLoading}
+				class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
+			/>
+			<Carousel.Next
+				disabled={isLoading}
+				class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
+			/>
+		</Carousel.Root>
+
+		<Carousel.Root class="w-full max-w-sm">
+			<Carousel.Content>
+				{#each data.femaleContestants as item}
+					<Carousel.Item>
+						<ContestantCard
+							gender="Female"
+							contestant={item}
+							selectionAction={() => (selectedFemale = item)}
+							selected={selectedFemale?.id === item.id}
+							clearSelection={clearFemaleSelection}
+							disabled={isLoading}
+						/>
+					</Carousel.Item>
+				{/each}
+			</Carousel.Content>
+			<Carousel.Previous
+				disabled={isLoading}
+				class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
+			/>
+			<Carousel.Next
+				disabled={isLoading}
+				class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
+			/>
+		</Carousel.Root>
+	</div>
+	<Selections
+		{isLoading}
+		{selectedMale}
+		{selectedFemale}
+		{clearMaleSelection}
+		{clearFemaleSelection}
+		{setLoading}
+	/>
+
+	<ScrollArea class="w-full h-80 max-w-[12rem] border border-border rounded-md p-3">
+		{#each data.matches as match}
+			<div class="flex gap-4 items-center justify-center w-full">
+				<img
+					src={match.maleContestant.imageUrl}
+					alt={match.maleContestant.name}
+					class="object-cover h-14 w-14"
+				/>
+				<img
+					src={match.femaleContestant.imageUrl}
+					alt={match.femaleContestant.name}
+					class="object-cover h-14 w-14"
+				/>
 			</div>
-
-			<Tooltip.Root openDelay={0}>
-				<Tooltip.Trigger asChild let:builder>
-					<Button
-						variant="ghost"
-						class="disabled:opacity-100 hover:bg-background"
-						builders={[builder]}
-						disabled={!selectedMale || !selectedFemale}
-					>
-						<Heart
-							class={cn(
-								'text-border transition-all duration-1000',
-								selectedFemale && selectedMale && 'fill-female text-female scale-150'
-							)}
-						/>
-					</Button>
-				</Tooltip.Trigger>
-				<Tooltip.Content class="border-0 bg-background shadow-none">
-					<p class="font-semibold">Match?</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-
-			<div class="flex flex-col gap-4">
-				<div class="h-5">
-					<div
-						class={cn(
-							'font-semibold text-xl transition-all duration-100 w-1/2 h-full',
-							!selectedFemale && 'border-b'
-						)}
-					>
-						{#if selectedFemale}
-							<h3 in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>
-								{selectedFemale.name}
-							</h3>
-						{/if}
-					</div>
-				</div>
-
-				<div class="w-52 h-96 border rounded-md">
-					{#if selectedFemale}
-						<img
-							src={selectedFemale.imageUrl}
-							alt={selectedFemale.name}
-							class="object-cover h-full w-full rounded-md"
-							in:fade={{ duration: 100 }}
-							out:fade={{ duration: 100 }}
-						/>
-					{/if}
-				</div>
-
-				<Button
-					variant="secondary"
-					on:click={() => (selectedFemale = null)}
-					disabled={!selectedFemale}
-					class={cn(
-						'duration-500 transition-all disabled:bg-background disabled:opacity-100 disabled:border'
-					)}
-				>
-					{#if selectedFemale}
-						<span in:fade={{ duration: 100 }} out:fade={{ duration: 100 }}>Clear</span>
-					{/if}</Button
-				>
-			</div>
-		</div>
-	</section>
-{/if}
+		{/each}
+	</ScrollArea>
+</section>

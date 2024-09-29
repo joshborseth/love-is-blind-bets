@@ -15,28 +15,12 @@
 	>
 		<Marquee pauseOnHover class="[--duration:100s]">
 			{#each data.maleContestants as item}
-				<ContestantCard
-					name={item.name}
-					job={item.job}
-					gender="Male"
-					imageUrl={item.imageUrl}
-					age={Number(item.age)}
-					desc={item.description}
-					roughEdges
-				/>
+				<ContestantCard contestant={item} gender="Male" roughEdges />
 			{/each}
 		</Marquee>
 		<Marquee reverse pauseOnHover class="[--duration:150s]">
 			{#each data.femaleContestants as item}
-				<ContestantCard
-					name={item.name}
-					job={item.job}
-					gender="Female"
-					imageUrl={item.imageUrl}
-					age={Number(item.age)}
-					desc={item.description}
-					roughEdges
-				/>
+				<ContestantCard contestant={item} gender="Female" roughEdges />
 			{/each}
 		</Marquee>
 	</div>

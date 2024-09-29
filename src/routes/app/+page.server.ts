@@ -1,23 +1,44 @@
 import { db } from '~/db';
+import { matches } from '~/db/schema.js';
 
 export const load = async (opts) => {
 	const matches = await db.query.matches.findMany({
-		where: (matches, { eq }) => eq(matches.userId, opts.locals.session.userId)
+		where: (matches, { eq }) => eq(matches.userId, opts.locals.session.userId),
+		with: {
+			maleContestant: true,
+			femaleContestant: true
+		}
 	});
 
-	if (!matches.length) {
-		const maleContestants = await db.query.maleContestants.findMany();
-		const femaleContestants = await db.query.femaleContestants.findMany();
+	const maleContestants = await db.query.maleContestants.findMany({
+		where: (maleContestants, { notInArray }) =>
+			notInArray(
+				maleContestants.id,
+				matches.map((match) => match.maleContestantId)
+			)
+	});
+	const femaleContestants = await db.query.femaleContestants.findMany({
+		where: (femaleContestants, { notInArray }) =>
+			notInArray(
+				femaleContestants.id,
+				matches.map((match) => match.femaleContestantId)
+			)
+	});
 
-		return { maleContestants, femaleContestants };
-	}
-
-	return { matches: matches.length ? matches : null };
+	return { maleContestants, femaleContestants, matches };
 };
 
 export const actions = {
-	default: async ({ request }) => {
-		const result = await request.json();
-		console.log(result);
+	default: async ({ request, locals }) => {
+		const formData = await request.formData();
+
+		const maleId = formData.get('selectedMaleId');
+		const femaleId = formData.get('selectedFemaleId');
+
+		await db.insert(matches).values({
+			femaleContestantId: Number(femaleId),
+			maleContestantId: Number(maleId),
+			userId: locals.session.userId
+		});
 	}
 };

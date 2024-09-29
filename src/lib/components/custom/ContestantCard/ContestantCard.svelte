@@ -5,23 +5,24 @@
 	import { cn } from '@/utils';
 	import { Button, buttonVariants } from '@/components/ui/button';
 	import { ScrollArea } from '@/components/ui/scroll-area';
-	export let name: String;
-	export let job: string;
+	import type { Contestants } from '@/types/contestants';
 	export let gender: 'Male' | 'Female';
-	export let imageUrl: string;
-	export let age: number;
-	export let desc: string;
+	export let contestant:
+		| Contestants['maleContestants'][number]
+		| Contestants['femaleContestants'][number];
+
 	export let roughEdges: boolean = false;
 	export let selected: boolean = false;
 	export let selectionAction: undefined | (() => void) = undefined;
 	export let clearSelection: undefined | (() => void) = undefined;
+	export let disabled: boolean = false;
 </script>
 
 <Card.Root class={cn('flex justify-between max-w-lg', roughEdges && 'border-0 shadow-none')}>
 	<Card.Header class="w-full lg:p-6 p-4 space-y-0 pb-3 justify-between">
 		<div class="flex flex-col gap-1">
 			<div class="flex w-full items-center justify-between">
-				<Card.Title>{name}</Card.Title>
+				<Card.Title>{contestant.name}</Card.Title>
 				<Badge
 					class={cn(
 						gender === 'Male' ? 'bg-male hover:bg-male' : 'bg-female hover:bg-female',
@@ -33,60 +34,66 @@
 				>
 			</div>
 			<div>
-				<Card.Description class="text-xs">{job}</Card.Description>
-				<Card.Description class="text-xs">{age} years old</Card.Description>
+				<Card.Description class="text-xs">{contestant.job}</Card.Description>
+				<Card.Description class="text-xs">{contestant.age} years old</Card.Description>
 			</div>
 		</div>
-
-		<Dialog.Root>
-			<Dialog.Trigger class={buttonVariants({ variant: 'secondary', size: 'sm' })}
-				>View</Dialog.Trigger
-			>
-			<Dialog.Content>
-				<Dialog.Header>
-					<div class="flex gap-3 items-center">
-						<Dialog.Title class="text-2xl text-foreground">{name}</Dialog.Title>
-						<Badge
-							class={cn(
-								gender === 'Male' ? 'bg-male hover:bg-male' : 'bg-female hover:bg-female',
-								'h-5'
-							)}
-						>
-							{gender}
-						</Badge>
+		<div class="flex w-full gap-2">
+			<Dialog.Root>
+				<Dialog.Trigger
+					{disabled}
+					class={buttonVariants({ variant: 'secondary', size: 'sm', class: 'w-full' })}
+					>View</Dialog.Trigger
+				>
+				<Dialog.Content>
+					<Dialog.Header>
+						<div class="flex gap-3 items-center">
+							<Dialog.Title class="text-2xl text-foreground">{contestant.name}</Dialog.Title>
+							<Badge
+								class={cn(
+									gender === 'Male' ? 'bg-male hover:bg-male' : 'bg-female hover:bg-female',
+									'h-5'
+								)}
+							>
+								{gender}
+							</Badge>
+						</div>
+						<div class="text-left">
+							<Dialog.Description>{contestant.job}</Dialog.Description>
+							<Dialog.Description>{contestant.age} years old</Dialog.Description>
+						</div>
+					</Dialog.Header>
+					<div class="flex justify-between flex-col-reverse gap-4 sm:flex-row">
+						<ScrollArea class="h-60"
+							><Dialog.Description class="max-w-xs text-xs pr-3"
+								>{contestant.description}</Dialog.Description
+							>
+						</ScrollArea>
+						<img
+							src={contestant.imageUrl}
+							alt={`${contestant.name}`}
+							width={200}
+							height={300}
+							class="rounded-md object-cover h-full"
+						/>
 					</div>
-					<div class="text-left">
-						<Dialog.Description>{job}</Dialog.Description>
-						<Dialog.Description>{age} years old</Dialog.Description>
-					</div>
-				</Dialog.Header>
-				<div class="flex justify-between flex-col-reverse gap-4 sm:flex-row">
-					<ScrollArea class="h-60"
-						><Dialog.Description class="max-w-xs text-xs pr-3">{desc}</Dialog.Description>
-					</ScrollArea>
-					<img
-						src={imageUrl}
-						alt={`${name}`}
-						width={200}
-						height={300}
-						class="rounded-md object-cover h-full"
-					/>
-				</div>
-			</Dialog.Content>
-		</Dialog.Root>
-		{#if selectionAction}
-			<Button
-				size="sm"
-				variant={!selected ? 'default' : 'destructive'}
-				on:click={!selected ? selectionAction : clearSelection}
-				>{!selected ? 'Select' : 'Clear'}</Button
-			>
-		{/if}
+				</Dialog.Content>
+			</Dialog.Root>
+			{#if selectionAction}
+				<Button
+					size="sm"
+					class="w-full"
+					variant={!selected ? 'default' : 'destructive'}
+					on:click={!selected ? selectionAction : clearSelection}
+					{disabled}>{!selected ? 'Select' : 'Clear'}</Button
+				>
+			{/if}
+		</div>
 	</Card.Header>
 	<Card.Content class="p-0">
 		<img
-			src={imageUrl}
-			alt={`${name}`}
+			src={contestant.imageUrl}
+			alt={`${contestant.name}`}
 			width={200}
 			height={300}
 			class="rounded-r-md object-cover h-full"

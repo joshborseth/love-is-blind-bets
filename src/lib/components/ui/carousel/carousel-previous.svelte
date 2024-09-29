@@ -11,6 +11,7 @@
 	export { className as class };
 	export let variant: VariantProps<typeof buttonVariants>['variant'] = 'outline';
 	export let size: VariantProps<typeof buttonVariants>['size'] = 'icon';
+	export let disabled: boolean = false;
 
 	const { orientation, canScrollPrev, scrollPrev, handleKeyDown } =
 		getEmblaContext('<Carousel.Previous/>');
@@ -26,7 +27,7 @@
 			: '-top-12 left-1/2 -translate-x-1/2 rotate-90',
 		className
 	)}
-	disabled={!$canScrollPrev}
+	disabled={!$canScrollPrev || disabled}
 	on:click={scrollPrev}
 	on:keydown={handleKeyDown}
 	{...$$restProps}

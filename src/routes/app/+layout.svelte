@@ -16,7 +16,7 @@
 				class={buttonVariants({
 					variant: 'link',
 					class: cn('text-muted-foreground pl-0', $page.url.pathname === '/app' && 'font-bold')
-				})}>Dashboard</a
+				})}>Matches</a
 			>
 			<a
 				href="/app/scoreboard"
