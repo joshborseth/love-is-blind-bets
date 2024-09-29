@@ -34,7 +34,12 @@ export default $config({
 		const seedContestantsFn = new sst.aws.Function('seedContestants', {
 			handler: './server/scripts/seeds/contestants.handler',
 			url: true,
-			link: [DB_URL, DB_KEY, croppedHeadshots]
+			link: [DB_URL, DB_KEY, croppedHeadshots],
+			copyFiles: [
+				{
+					from: './server/scripts/seeds/alexandra.jpg'
+				}
+			]
 		});
 		return {
 			seedContestantsFnUrl: seedContestantsFn.url
