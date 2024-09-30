@@ -2,7 +2,6 @@
 	import { Button } from '@/components/ui/button';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { applyAction, enhance } from '$app/forms';
-	import type { femaleContestants, maleContestants, matches } from '~/db/schema';
 	import { LoaderCircle } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import type { Match } from '@/types/match';

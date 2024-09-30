@@ -34,7 +34,7 @@
 				>
 			</div>
 			<div>
-				<Card.Description class="text-xs">{contestant.job}</Card.Description>
+				<Card.Description class="text-xs max-w-44">{contestant.job}</Card.Description>
 				<Card.Description class="text-xs">{contestant.age} years old</Card.Description>
 			</div>
 		</div>

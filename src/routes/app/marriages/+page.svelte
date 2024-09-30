@@ -5,18 +5,22 @@
 	import { MAX_GUESSES } from '@/constants/guesses';
 	import * as Card from '@/components/ui/card';
 	import { applyAction, enhance } from '$app/forms';
+	import * as Dialog from '@/components/ui/dialog';
 	import { goto } from '$app/navigation';
+	import { LoaderCircle } from 'lucide-svelte';
 	export let data;
 	const formName = 'marriage-selection-form';
-	let checkedIds: Array<{ id: number; checked: boolean }> = data.matches.map((match) => ({
-		id: match.id,
-		checked: false
-	}));
+	let checkedIds: Array<{ id: number; checked: boolean }> = data.matches.length
+		? data.matches.map((match) => ({
+				id: match.id,
+				checked: false
+			}))
+		: [];
 	let toggleChecked = (id: number) =>
 		(checkedIds = checkedIds.map((c) => (c.id === id ? { ...c, checked: !c.checked } : c)));
 
 	let disabled = false;
-	let loading = false;
+	let isLoading = false;
 
 	$: {
 		disabled = checkedIds.filter((c) => !!c.checked).length === MAX_GUESSES;
@@ -37,21 +41,46 @@
 				<p class="font-bold">{checkedIds.filter((c) => !!c.checked).length} / {MAX_GUESSES}</p>
 			</div>
 			<div class="flex gap-2">
-				<a href="/app" class={buttonVariants({ variant: 'default' })}>Go Back</a>
-				<Button form={formName} type="submit" disabled={!disabled}>Finish</Button>
+				<a href="/app" class={buttonVariants({ variant: 'secondary' })}>Go to Match Selection</a>
+
+				<Dialog.Root>
+					<Dialog.Trigger disabled={!disabled} class={buttonVariants({ variant: 'default' })}
+						>Submit</Dialog.Trigger
+					>
+					<Dialog.Content>
+						<Dialog.Header>
+							<Dialog.Title class="text-2xl text-foreground">Are you sure?</Dialog.Title>
+
+							<Dialog.Description
+								>This will lock in all of your selections and you may not edit them later.</Dialog.Description
+							>
+							<Dialog.Description class="font-bold">You cannot undo this action.</Dialog.Description
+							>
+						</Dialog.Header>
+						<Dialog.Footer class="sm:justify-start">
+							<Button form={formName} type="submit" disabled={!disabled}>
+								{#if isLoading}
+									<LoaderCircle class="animate-spin" />
+								{:else}
+									Submit
+								{/if}
+							</Button>
+						</Dialog.Footer>
+					</Dialog.Content>
+				</Dialog.Root>
 			</div>
 		</div>
 		<form
 			id={formName}
 			use:enhance={() => {
-				loading = true;
+				isLoading = true;
 				return async ({ result }) => {
 					if (result.type === 'redirect') {
-						goto(result.location);
+						await goto(result.location);
 					} else {
 						await applyAction(result);
 					}
-					loading = false;
+					isLoading = false;
 				};
 			}}
 			method="POST"
@@ -74,7 +103,7 @@
 			<p class="text-muted-foreground font-light">
 				You need to match up all of the contestants before you can marry them.
 			</p>
-			<a href="/app" class={buttonVariants({ variant: 'default' })}>Go Back</a>
+			<a href="/app" class={buttonVariants({ variant: 'secondary' })}>Go to Match Selection</a>
 		</div>
 
 		<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

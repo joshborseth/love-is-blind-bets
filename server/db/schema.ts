@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const femaleContestants = sqliteTable('femaleContestants', {
@@ -8,7 +8,10 @@ export const femaleContestants = sqliteTable('femaleContestants', {
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	imageUrl: text('imageUrl').notNull(),
-	headShotUrl: text('headShotUrl').notNull()
+	headShotUrl: text('headShotUrl').notNull(),
+	createdAt: text('createdAt')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull()
 });
 
 export const maleContestants = sqliteTable('maleContestants', {
@@ -18,14 +21,32 @@ export const maleContestants = sqliteTable('maleContestants', {
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	imageUrl: text('imageUrl').notNull(),
-	headShotUrl: text('headShotUrl').notNull()
+	headShotUrl: text('headShotUrl').notNull(),
+	createdAt: text('createdAt')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull()
 });
 
 export const matches = sqliteTable('matches', {
 	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
 	userId: text('userId').notNull(),
 	maleContestantId: integer('maleContestantId').notNull(),
-	femaleContestantId: integer('femaleContestantId').notNull()
+	femaleContestantId: integer('femaleContestantId').notNull(),
+	marriageGuess: integer('marriageGuess', { mode: 'boolean' }).default(false).notNull(),
+	createdAt: text('createdAt')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	updatedAt: text('updatedAt')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.$onUpdate(() => sql`CURRENT_TIMESTAMP`)
+});
+
+export const lockedInUsers = sqliteTable('lockedInUsers', {
+	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+	userId: text('userId').notNull(),
+	lockedInAt: text('lockedInAt')
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull()
 });
 
 export const matchesRelations = relations(matches, ({ one }) => ({

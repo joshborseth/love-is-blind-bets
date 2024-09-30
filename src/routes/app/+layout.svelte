@@ -6,35 +6,52 @@
 	import { Separator } from '@/components/ui/separator';
 	import { page } from '$app/stores';
 	import { cn } from '@/utils';
+	export let data;
 </script>
 
 <header class="h-20 border-b-border border-b bg-background flex justify-center">
 	<div class="max-w-7xl p-3 md:p-6 flex w-full items-center justify-between">
 		<nav class="hidden md:flex gap-3 items-center text-sm">
-			<a
-				href="/app"
-				class={buttonVariants({
-					variant: 'link',
-					class: cn('text-muted-foreground pl-0', $page.url.pathname === '/app' && 'font-bold')
-				})}>Matches</a
-			>
-			<a
-				href="/app/marriages"
-				class={buttonVariants({
-					variant: 'link',
-					class: cn('text-muted-foreground', $page.url.pathname === '/app/marriages' && 'font-bold')
-				})}>Marriages</a
-			>
-			<a
-				href="/app/scoreboard"
-				class={buttonVariants({
-					variant: 'link',
-					class: cn(
-						'text-muted-foreground',
-						$page.url.pathname === '/app/scoreboard' && 'font-bold'
-					)
-				})}>Scoreboard</a
-			>
+			{#if !data.lockedInUser}
+				<a
+					href="/app"
+					class={buttonVariants({
+						variant: 'link',
+						class: cn('text-muted-foreground pl-0', $page.url.pathname === '/app' && 'font-bold')
+					})}>Matches</a
+				>
+				<a
+					href="/app/marriages"
+					class={buttonVariants({
+						variant: 'link',
+						class: cn(
+							'text-muted-foreground',
+							$page.url.pathname === '/app/marriages' && 'font-bold'
+						)
+					})}>Marriages</a
+				>
+			{:else}
+				<a
+					href="/app/guesses"
+					class={buttonVariants({
+						variant: 'link',
+						class: cn(
+							'text-muted-foreground pl-0',
+							$page.url.pathname === '/app/guesses' && 'font-bold'
+						)
+					})}>My Guesses</a
+				>
+				<a
+					href="/app/scoreboard"
+					class={buttonVariants({
+						variant: 'link',
+						class: cn(
+							'text-muted-foreground',
+							$page.url.pathname === '/app/scoreboard' && 'font-bold'
+						)
+					})}>Scoreboard</a
+				>
+			{/if}
 		</nav>
 		<SignedIn let:user>
 			{#if user}
@@ -68,7 +85,7 @@
 	</div>
 </header>
 <main class="w-full flex justify-center">
-	<div class="max-w-7xl w-full p-3 md:p-6">
+	<div class="max-w-7xl w-full p-6">
 		<slot />
 	</div>
 </main>

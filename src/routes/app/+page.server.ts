@@ -1,3 +1,4 @@
+import { error } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { db } from '~/db';
 import { matches } from '~/db/schema';
@@ -31,6 +32,15 @@ export const load = async (opts) => {
 
 export const actions = {
 	select: async ({ request, locals }) => {
+		const user = await db.query.lockedInUsers.findFirst({
+			where: (lockedInUsers, { eq }) => eq(lockedInUsers.userId, locals.session.userId)
+		});
+
+		if (user) {
+			error(400, {
+				message: 'You have already locked in your matches, contact Josh if you need help.'
+			});
+		}
 		const formData = await request.formData();
 
 		const maleId = formData.get('selectedMaleId');
@@ -43,7 +53,15 @@ export const actions = {
 		});
 	},
 	undo: async ({ request, locals }) => {
-		console.log('undo');
+		const user = await db.query.lockedInUsers.findFirst({
+			where: (lockedInUsers, { eq }) => eq(lockedInUsers.userId, locals.session.userId)
+		});
+
+		if (user) {
+			error(400, {
+				message: 'You have already locked in your matches, contact Josh if you need help.'
+			});
+		}
 		const formData = await request.formData();
 
 		const matchId = formData.get('matchId');

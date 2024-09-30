@@ -15,7 +15,7 @@
 	<div class="h-5">
 		<div
 			class={cn(
-				'font-semibold text-xl transition-all duration-100 w-1/2 h-full',
+				'font-semibold text-xl transition-all duration-100 w-full h-full',
 				!selectedContestant && 'border-b'
 			)}
 		>
