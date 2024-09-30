@@ -8,6 +8,7 @@
 	import SelectedMatches from './components/SelectedMatches.svelte';
 	import { fade } from 'svelte/transition';
 	import { buttonVariants } from '@/components/ui/button';
+	import { MAX_MATCHES } from '@/constants/matches';
 
 	export let data;
 	let selectedMale: Contestants['maleContestants'][number] | null = null;
@@ -16,7 +17,6 @@
 	let setLoading = (value: boolean) => (isLoading = value);
 	let clearMaleSelection = () => (selectedMale = null);
 	let clearFemaleSelection = () => (selectedFemale = null);
-	let MAX_MATCHES = 14;
 </script>
 
 <div class="flex w-full justify-between items-end">

@@ -5,10 +5,8 @@
 	import type { femaleContestants, maleContestants, matches } from '~/db/schema';
 	import { LoaderCircle } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
-	export let match: typeof matches.$inferSelect & {
-		maleContestant: typeof maleContestants.$inferSelect;
-		femaleContestant: typeof femaleContestants.$inferSelect;
-	};
+	import type { Match } from '@/types/match';
+	export let match: Match;
 	let loading = false;
 </script>
 
