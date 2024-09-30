@@ -9,10 +9,10 @@
 	</p>
 	<div class="py-2" />
 
-	<Alert.Root class="w-fit">
-		<Alert.Title>Coming Soon</Alert.Title>
+	<Alert.Root class="w-fit flex flex-col gap-2">
+		<Alert.Title>Points - Coming Soon</Alert.Title>
 		<Alert.Description
-			>This feature will be available once the contestants are matched up in the show!</Alert.Description
+			>We will start tallying up the points once the contestants are matched up in the show!</Alert.Description
 		>
 	</Alert.Root>
 </div>

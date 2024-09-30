@@ -8,9 +8,10 @@
 </script>
 
 <div class="flex flex-col gap-2">
-	<h1 class="text-3xl font-bold">Your Guesses</h1>
+	<h1 class="text-3xl font-bold">You're All Done!</h1>
 	<p class="text-muted-foreground font-light">
-		View what you have guessed. Couples that you have guessed to get married will be highlighted.
+		You have matched up all of the contestants. You can come back to this page at any time to view
+		your guesses.
 	</p>
 
 	<div class="py-2" />

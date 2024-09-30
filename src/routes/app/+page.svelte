@@ -8,8 +8,11 @@
 	import { cn } from '@/utils';
 	import SelectedMatches from './components/SelectedMatches.svelte';
 	import { fade } from 'svelte/transition';
-	import { buttonVariants } from '@/components/ui/button';
+	import { Button, buttonVariants } from '@/components/ui/button';
 	import { MAX_MATCHES } from '@/constants/matches';
+	import { Menu } from 'lucide-svelte';
+
+	import * as Sheet from '@/components/ui/sheet';
 
 	export let data;
 	let selectedMale: Contestants['maleContestants'][number] | null = null;
@@ -20,21 +23,48 @@
 	let clearFemaleSelection = () => (selectedFemale = null);
 </script>
 
-<div class="flex w-full justify-between items-end">
-	<div class="flex flex-col gap-2">
-		<h1 class="text-3xl font-bold">Matches</h1>
-		<p class="text-muted-foreground font-light">Choose your matches below!</p>
+<div class="flex md:flex-row flex-col gap-2 w-full justify-start md:justify-between md:items-end">
+	<div class="flex w-full justify-between">
+		<div class="flex flex-col gap-2 text-left w-full max-w-xs md:max-w-xl">
+			<h1 class="text-3xl font-bold">Matches</h1>
+			<p class="text-muted-foreground text-sm md:text-base font-light">
+				Choose your matches below!
+			</p>
+		</div>
+
+		<Sheet.Root>
+			<Sheet.Trigger
+				class={buttonVariants({
+					variant: 'outline',
+					size: 'icon',
+					class: 'lg:hidden inline-flex'
+				})}><Menu /></Sheet.Trigger
+			>
+			<Sheet.Content>
+				<Sheet.Header>
+					<Sheet.Title>Your Matches</Sheet.Title>
+					<Sheet.Description>{data.matches.length} / {MAX_MATCHES}</Sheet.Description>
+				</Sheet.Header>
+				<div class="py-2" />
+				<div class={cn('w-full rounded-md p-3 h-3/4 overflow-y-auto')}>
+					{#each data.matches as match}
+						<SelectedMatches {match} />
+					{/each}
+				</div>
+			</Sheet.Content>
+		</Sheet.Root>
 	</div>
+
 	{#if data.matches.length === MAX_MATCHES && !data.lockedInUser}
 		<a
 			in:fade={{ duration: 300 }}
 			out:fade={{ duration: 300 }}
 			href="/app/marriages"
-			class={buttonVariants({ variant: 'default' })}>Next</a
+			class={buttonVariants({ variant: 'default', class: 'w-fit' })}>Next</a
 		>
 	{/if}
 </div>
-<div class="py-2" />
+<div class="py-3" />
 {#if data.lockedInUser}
 	<Alert.Root variant="destructive" class="w-fit flex flex-col gap-3">
 		<Alert.Title>Already Locked In</Alert.Title>
@@ -44,11 +74,11 @@
 	</Alert.Root>
 {:else}
 	<section
-		class="mx-auto py-10 bg-background h-full flex items-center gap-12 justify-between max-w-7xl w-full"
+		class="mx-auto md:py-10 bg-background flex md:flex-row flex-col items-center gap-4 md:gap-12 justify-between max-w-7xl w-full"
 	>
 		{#if data.matches.length !== MAX_MATCHES}
-			<div in:fade={{ duration: 300 }} class="flex flex-col gap-20">
-				<Carousel.Root class="w-full max-w-sm">
+			<div in:fade={{ duration: 300 }} class="flex-col gap-20 hidden md:flex">
+				<Carousel.Root class="w-full max-w-xs">
 					<Carousel.Content>
 						{#each data.maleContestants as item}
 							<Carousel.Item>
@@ -73,7 +103,7 @@
 					/>
 				</Carousel.Root>
 
-				<Carousel.Root class="w-full max-w-sm">
+				<Carousel.Root class="w-full max-w-xs">
 					<Carousel.Content>
 						{#each data.femaleContestants as item}
 							<Carousel.Item>
@@ -114,7 +144,41 @@
 			{clearFemaleSelection}
 			{setLoading}
 		/>
-		<div class="flex flex-col max-w-[12rem] gap-2 w-full">
+		{#if data.matches.length !== MAX_MATCHES}
+			<div class="flex flex-wrap justify-center max-w-xs md:hidden">
+				{#each [...data.maleContestants.map( (c) => ({ ...c, gender: 'Male' }) ), ...data.femaleContestants.map( (c) => ({ ...c, gender: 'Female' }) )] as match}
+					<Button
+						on:click={() => {
+							if (match.id === selectedMale?.id) {
+								return clearMaleSelection();
+							}
+
+							if (match.id === selectedFemale?.id) {
+								return clearFemaleSelection();
+							}
+
+							if (match.gender === 'Male') {
+								return (selectedMale = match);
+							}
+
+							selectedFemale = match;
+						}}
+						class={cn(
+							'rounded-full p-0.5 h-auto w-auto',
+							match.gender === 'Male' && match.id === selectedMale?.id && 'border border-male',
+							match.gender === 'Female' && match.id === selectedFemale?.id && 'border border-female'
+						)}
+						variant="ghost"
+						><img
+							src={match.headShotUrl}
+							alt={match.name}
+							class="w-8 h-8 rounded-full object-cover"
+						/></Button
+					>
+				{/each}
+			</div>
+		{/if}
+		<div class="hidden lg:flex flex-col max-w-[12rem] gap-2 w-full">
 			<h3 class="text-xl font-bold">Your Matches</h3>
 			{#if data.matches.length}
 				<p in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>

@@ -9,9 +9,9 @@
 	export let data;
 </script>
 
-<header class="h-20 border-b-border border-b bg-background flex justify-center">
-	<div class="max-w-7xl p-3 md:p-6 flex w-full items-center justify-between">
-		<nav class="hidden md:flex gap-3 items-center text-sm">
+<header class="h-14 md:h-20 border-b-border border-b bg-background flex justify-center">
+	<div class="max-w-7xl p-6 flex w-full items-center justify-between">
+		<nav class="gap-3 items-center text-sm">
 			{#if !data.lockedInUser}
 				<a
 					href="/app"
@@ -84,7 +84,7 @@
 		</SignedIn>
 	</div>
 </header>
-<main class="w-full flex justify-center">
+<main class="w-full flex justify-center relative">
 	<div class="max-w-7xl w-full p-6">
 		<slot />
 	</div>

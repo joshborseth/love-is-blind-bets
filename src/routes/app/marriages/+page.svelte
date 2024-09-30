@@ -76,7 +76,7 @@
 				isLoading = true;
 				return async ({ result }) => {
 					if (result.type === 'redirect') {
-						await goto(result.location);
+						await goto(result.location, { invalidateAll: true });
 					} else {
 						await applyAction(result);
 					}
@@ -106,7 +106,7 @@
 			<a href="/app" class={buttonVariants({ variant: 'secondary' })}>Go to Match Selection</a>
 		</div>
 
-		<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+		<section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 h-full">
 			{#each Array.from({ length: MAX_MATCHES }) as match}
 				<Card.Root class="max-w-[17rem] h-44" />
 			{/each}

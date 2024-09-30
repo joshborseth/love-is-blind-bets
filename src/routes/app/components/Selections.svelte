@@ -17,8 +17,13 @@
 	$: selectedFemaleId = selectedFemale?.id;
 </script>
 
-<div class="flex max-w-xl items-center gap-4 justify-center w-full">
-	<Selection clearSelection={clearMaleSelection} {isLoading} selectedContestant={selectedMale} />
+<div class="flex max-w-xs md:max-w-xl items-center gap-4 justify-center w-full">
+	<Selection
+		clearSelection={clearMaleSelection}
+		{isLoading}
+		gender="Male"
+		selectedContestant={selectedMale}
+	/>
 	<Tooltip.Root openDelay={0}>
 		<Tooltip.Trigger asChild let:builder>
 			<form
@@ -69,6 +74,7 @@
 	<Selection
 		clearSelection={clearFemaleSelection}
 		{isLoading}
+		gender="Female"
 		selectedContestant={selectedFemale}
 	/>
 </div>
