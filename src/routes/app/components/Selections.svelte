@@ -23,6 +23,7 @@
 		<Tooltip.Trigger asChild let:builder>
 			<form
 				method="POST"
+				action="?/select"
 				use:enhance={() => {
 					setLoading(true);
 					return async ({ result }) => {
@@ -31,8 +32,8 @@
 						} else {
 							await applyAction(result);
 							await invalidateAll();
-							selectedFemale = null;
-							selectedMale = null;
+							clearFemaleSelection();
+							clearMaleSelection();
 						}
 						setLoading(false);
 					};

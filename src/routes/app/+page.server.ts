@@ -1,5 +1,6 @@
+import { and, eq } from 'drizzle-orm';
 import { db } from '~/db';
-import { matches } from '~/db/schema.js';
+import { matches } from '~/db/schema';
 
 export const load = async (opts) => {
 	const matches = await db.query.matches.findMany({
@@ -29,7 +30,7 @@ export const load = async (opts) => {
 };
 
 export const actions = {
-	default: async ({ request, locals }) => {
+	select: async ({ request, locals }) => {
 		const formData = await request.formData();
 
 		const maleId = formData.get('selectedMaleId');
@@ -40,5 +41,15 @@ export const actions = {
 			maleContestantId: Number(maleId),
 			userId: locals.session.userId
 		});
+	},
+	undo: async ({ request, locals }) => {
+		console.log('undo');
+		const formData = await request.formData();
+
+		const matchId = formData.get('matchId');
+
+		await db
+			.delete(matches)
+			.where(and(eq(matches.userId, locals.session.userId), eq(matches.id, Number(matchId))));
 	}
 };
