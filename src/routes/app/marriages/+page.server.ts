@@ -6,6 +6,12 @@ import { lockedInUsers, matches } from '~/db/schema';
 import { inArray } from 'drizzle-orm';
 
 export const load = async (opts) => {
+	const user = await db.query.lockedInUsers.findFirst({
+		where: (lockedInUsers, { eq }) => eq(lockedInUsers.userId, opts.locals.session.userId)
+	});
+	if (user) {
+		redirect(307, '/app/guesses');
+	}
 	const matches = await db.query.matches.findMany({
 		where: (matches, { eq }) => eq(matches.userId, opts.locals.session.userId),
 		with: {
@@ -54,6 +60,6 @@ export const actions = {
 		await db.insert(lockedInUsers).values({
 			userId: locals.session.userId
 		});
-		redirect(307, '/app/guesses');
+		redirect(307, '/app/guesses?status=guesses-complete');
 	}
 };

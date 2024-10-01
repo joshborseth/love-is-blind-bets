@@ -3,16 +3,23 @@
 	import * as Card from '@/components/ui/card';
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils';
-
+	import { page } from '$app/stores';
 	export let data;
 </script>
 
 <div class="flex flex-col gap-2">
-	<h1 class="text-3xl font-bold">You're All Done!</h1>
-	<p class="text-muted-foreground font-light">
-		You have matched up all of the contestants. You can come back to this page at any time to view
-		your guesses.
-	</p>
+	{#if $page.url.searchParams.get('status') === 'guesses-complete'}
+		<h1 class="text-3xl font-bold">Success! You're All Done!</h1>
+		<p class="text-muted-foreground font-light">
+			You have matched up all of the contestants. You can come back to this page at any time to view
+			your guesses.
+		</p>
+	{:else}
+		<h1 class="text-3xl font-bold">Your Guesses</h1>
+		<p class="text-muted-foreground font-light">
+			View what you have guessed. Couples that you have guessed to get married will be highlighted.
+		</p>
+	{/if}
 
 	<div class="py-2" />
 	{#if !data.lockedInUser}

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { ContestantCard } from '@/components/custom/ContestantCard';
 	import * as Carousel from '@/components/ui/carousel';
-	import * as Alert from '@/components/ui/alert';
 	import type { Contestants } from '@/types/contestants';
 	import Selections from './components/Selections.svelte';
 	import { ScrollArea } from '@/components/ui/scroll-area';
@@ -65,136 +64,128 @@
 	{/if}
 </div>
 <div class="py-3" />
-{#if data.lockedInUser}
-	<Alert.Root variant="destructive" class="w-fit flex flex-col gap-3">
-		<Alert.Title>Already Locked In</Alert.Title>
-		<Alert.Description
-			>You have already locked in your matches, therefore you cannot select or undo your selections.</Alert.Description
-		>
-	</Alert.Root>
-{:else}
-	<section
-		class="mx-auto md:py-10 bg-background flex md:flex-row flex-col items-center gap-4 md:gap-12 justify-between max-w-7xl w-full"
-	>
-		{#if data.matches.length !== MAX_MATCHES}
-			<div in:fade={{ duration: 300 }} class="flex-col gap-20 hidden md:flex">
-				<Carousel.Root class="w-full max-w-xs">
-					<Carousel.Content>
-						{#each data.maleContestants as item}
-							<Carousel.Item>
-								<ContestantCard
-									gender="Male"
-									contestant={item}
-									selectionAction={() => (selectedMale = item)}
-									selected={selectedMale?.id === item.id}
-									clearSelection={clearMaleSelection}
-									disabled={isLoading}
-								/>
-							</Carousel.Item>
-						{/each}
-					</Carousel.Content>
-					<Carousel.Previous
-						disabled={isLoading}
-						class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
-					/>
-					<Carousel.Next
-						disabled={isLoading}
-						class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
-					/>
-				</Carousel.Root>
 
-				<Carousel.Root class="w-full max-w-xs">
-					<Carousel.Content>
-						{#each data.femaleContestants as item}
-							<Carousel.Item>
-								<ContestantCard
-									gender="Female"
-									contestant={item}
-									selectionAction={() => (selectedFemale = item)}
-									selected={selectedFemale?.id === item.id}
-									clearSelection={clearFemaleSelection}
-									disabled={isLoading}
-								/>
-							</Carousel.Item>
-						{/each}
-					</Carousel.Content>
-					<Carousel.Previous
-						disabled={isLoading}
-						class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
-					/>
-					<Carousel.Next
-						disabled={isLoading}
-						class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
-					/>
-				</Carousel.Root>
-			</div>
-		{:else}
-			<div in:fade={{ duration: 300 }} class="flex flex-col gap-2">
-				<h2 class="text-2xl font-bold">You have matched up all of the contestants!</h2>
-				<p class="text-muted-foreground">
-					Proceed to the next step, or undo some of your selections if you have made a mistake.
-				</p>
-			</div>
-		{/if}
-		<Selections
-			{isLoading}
-			{selectedMale}
-			{selectedFemale}
-			{clearMaleSelection}
-			{clearFemaleSelection}
-			{setLoading}
-		/>
-		{#if data.matches.length !== MAX_MATCHES}
-			<div class="flex flex-wrap justify-center max-w-xs md:hidden">
-				{#each [...data.maleContestants.map( (c) => ({ ...c, gender: 'Male' }) ), ...data.femaleContestants.map( (c) => ({ ...c, gender: 'Female' }) )] as match}
-					<Button
-						on:click={() => {
-							if (match.id === selectedMale?.id) {
-								return clearMaleSelection();
-							}
+<section
+	class="mx-auto md:py-10 bg-background flex md:flex-row flex-col items-center gap-4 md:gap-12 justify-between max-w-7xl w-full"
+>
+	{#if data.matches.length !== MAX_MATCHES}
+		<div in:fade={{ duration: 300 }} class="flex-col gap-20 hidden md:flex">
+			<Carousel.Root class="w-full max-w-xs">
+				<Carousel.Content>
+					{#each data.maleContestants as item}
+						<Carousel.Item>
+							<ContestantCard
+								gender="Male"
+								contestant={item}
+								selectionAction={() => (selectedMale = item)}
+								selected={selectedMale?.id === item.id}
+								clearSelection={clearMaleSelection}
+								disabled={isLoading}
+							/>
+						</Carousel.Item>
+					{/each}
+				</Carousel.Content>
+				<Carousel.Previous
+					disabled={isLoading}
+					class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
+				/>
+				<Carousel.Next
+					disabled={isLoading}
+					class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
+				/>
+			</Carousel.Root>
 
-							if (match.id === selectedFemale?.id) {
-								return clearFemaleSelection();
-							}
-
-							if (match.gender === 'Male') {
-								return (selectedMale = match);
-							}
-
-							selectedFemale = match;
-						}}
-						class={cn(
-							'rounded-full p-0.5 h-auto w-auto',
-							match.gender === 'Male' && match.id === selectedMale?.id && 'border border-male',
-							match.gender === 'Female' && match.id === selectedFemale?.id && 'border border-female'
-						)}
-						variant="ghost"
-						><img
-							src={match.headShotUrl}
-							alt={match.name}
-							class="w-8 h-8 rounded-full object-cover"
-						/></Button
-					>
-				{/each}
-			</div>
-		{/if}
-		<div class="hidden lg:flex flex-col max-w-[12rem] gap-2 w-full">
-			<h3 class="text-xl font-bold">Your Matches</h3>
-			{#if data.matches.length}
-				<p in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>
-					{data.matches.length} / {MAX_MATCHES}
-				</p>
-			{/if}
-			<ScrollArea
-				class={cn(
-					'w-full h-80 border border-border rounded-md p-3',
-					data.matches.length && 'shadow-2xl shadow-primary transition-shadow duration-1000'
-				)}
-			>
-				{#each data.matches as match}
-					<SelectedMatches {match} />
-				{/each}
-			</ScrollArea>
+			<Carousel.Root class="w-full max-w-xs">
+				<Carousel.Content>
+					{#each data.femaleContestants as item}
+						<Carousel.Item>
+							<ContestantCard
+								gender="Female"
+								contestant={item}
+								selectionAction={() => (selectedFemale = item)}
+								selected={selectedFemale?.id === item.id}
+								clearSelection={clearFemaleSelection}
+								disabled={isLoading}
+							/>
+						</Carousel.Item>
+					{/each}
+				</Carousel.Content>
+				<Carousel.Previous
+					disabled={isLoading}
+					class="-bottom-10 left-1/3 translate-x-0 translate-y-0 top-auto"
+				/>
+				<Carousel.Next
+					disabled={isLoading}
+					class="-bottom-10 right-1/3 translate-x-0 translate-y-0 top-auto"
+				/>
+			</Carousel.Root>
 		</div>
-	</section>
-{/if}
+	{:else}
+		<div in:fade={{ duration: 300 }} class="flex flex-col gap-2">
+			<h2 class="text-2xl font-bold">You have matched up all of the contestants!</h2>
+			<p class="text-muted-foreground">
+				Proceed to the next step, or undo some of your selections if you have made a mistake.
+			</p>
+		</div>
+	{/if}
+	<Selections
+		{isLoading}
+		{selectedMale}
+		{selectedFemale}
+		{clearMaleSelection}
+		{clearFemaleSelection}
+		{setLoading}
+	/>
+	{#if data.matches.length !== MAX_MATCHES}
+		<div class="flex flex-wrap justify-center max-w-xs md:hidden">
+			{#each [...data.maleContestants.map( (c) => ({ ...c, gender: 'Male' }) ), ...data.femaleContestants.map( (c) => ({ ...c, gender: 'Female' }) )] as match}
+				<Button
+					on:click={() => {
+						if (match.id === selectedMale?.id) {
+							return clearMaleSelection();
+						}
+
+						if (match.id === selectedFemale?.id) {
+							return clearFemaleSelection();
+						}
+
+						if (match.gender === 'Male') {
+							return (selectedMale = match);
+						}
+
+						selectedFemale = match;
+					}}
+					class={cn(
+						'rounded-full p-0.5 h-auto w-auto',
+						match.gender === 'Male' && match.id === selectedMale?.id && 'border border-male',
+						match.gender === 'Female' && match.id === selectedFemale?.id && 'border border-female'
+					)}
+					variant="ghost"
+					><img
+						src={match.headShotUrl}
+						alt={match.name}
+						class="w-8 h-8 rounded-full object-cover"
+					/></Button
+				>
+			{/each}
+		</div>
+	{/if}
+	<div class="hidden lg:flex flex-col max-w-[12rem] gap-2 w-full">
+		<h3 class="text-xl font-bold">Your Matches</h3>
+		{#if data.matches.length}
+			<p in:fade={{ duration: 300 }} out:fade={{ duration: 300 }}>
+				{data.matches.length} / {MAX_MATCHES}
+			</p>
+		{/if}
+		<ScrollArea
+			class={cn(
+				'w-full h-80 border border-border rounded-md p-3',
+				data.matches.length && 'shadow-2xl shadow-primary transition-shadow duration-1000'
+			)}
+		>
+			{#each data.matches as match}
+				<SelectedMatches {match} />
+			{/each}
+		</ScrollArea>
+	</div>
+</section>

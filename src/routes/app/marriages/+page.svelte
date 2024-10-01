@@ -8,6 +8,7 @@
 	import * as Dialog from '@/components/ui/dialog';
 	import { goto } from '$app/navigation';
 	import { LoaderCircle } from 'lucide-svelte';
+
 	export let data;
 	const formName = 'marriage-selection-form';
 	let checkedIds: Array<{ id: number; checked: boolean }> = data.matches.length
