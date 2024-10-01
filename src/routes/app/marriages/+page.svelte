@@ -34,13 +34,15 @@
 		<div class="w-full flex justify-between md:flex-row flex-col gap-6 md:gap-0 md:items-end">
 			<div class="flex flex-col gap-2">
 				<h1 class="text-3xl font-bold">Who Will Get Married?</h1>
-				<p class="text-muted-foreground font-light">
+				<p class="text-muted-foreground text-sm md:text-base font-light">
 					Each correct marriage guess will earn you {MARRIAGE_GUESS_POINTS} points.
 				</p>
-				<p class="font-bold">
+				<p class="text-sm md:text-base font-bold">
 					You may choose {MAX_GUESSES} couples.
 				</p>
-				<p class="font-bold">{checkedIds.filter((c) => !!c.checked).length} / {MAX_GUESSES}</p>
+				<p class="text-sm md:text-base font-bold">
+					{checkedIds.filter((c) => !!c.checked).length} / {MAX_GUESSES}
+				</p>
 			</div>
 			<div class="flex gap-2">
 				<a href="/app" class={buttonVariants({ variant: 'secondary' })}>Go to Match Selection</a>
@@ -102,7 +104,7 @@
 	<div class="flex gap-10 flex-col">
 		<div class="flex flex-col gap-2 items-start">
 			<h1 class="text-3xl font-bold">Oops!</h1>
-			<p class="text-muted-foreground font-light">
+			<p class="text-muted-foreground text-sm md:text-base font-light">
 				You need to match up all of the contestants before you can marry them.
 			</p>
 			<a href="/app" class={buttonVariants({ variant: 'secondary' })}>Go to Match Selection</a>

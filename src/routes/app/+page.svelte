@@ -124,7 +124,7 @@
 	{:else}
 		<div in:fade={{ duration: 300 }} class="flex flex-col gap-2">
 			<h2 class="text-2xl font-bold">You have matched up all of the contestants!</h2>
-			<p class="text-muted-foreground">
+			<p class="text-muted-foreground text-sm md:text-base font-light">
 				Proceed to the next step, or undo some of your selections if you have made a mistake.
 			</p>
 		</div>
