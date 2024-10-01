@@ -21,18 +21,9 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "Web": {
-      "type": "sst.aws.SvelteKit"
-      "url": string
-    }
     "croppedHeadshots": {
       "name": string
       "type": "sst.aws.Bucket"
-    }
-    "seedContestants": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
     }
   }
 }
