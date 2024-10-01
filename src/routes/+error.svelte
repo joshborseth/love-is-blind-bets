@@ -4,8 +4,8 @@
 </script>
 
 <div class="flex justify-center items-center h-screen w-screen">
-	<div class="flex flex-col gap-2 items-center">
-		<h1 class="text-3xl font-bold">
+	<div class="flex flex-col gap-2 items-center p-3">
+		<h1 class="text-3xl font-bold text-center">
 			{$page.status}
 			{$page.error?.message ?? 'Something Went Wrong'}
 		</h1>

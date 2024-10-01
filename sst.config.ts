@@ -29,6 +29,7 @@ export default $config({
 		});
 		new sst.aws.SvelteKit('Web', {
 			link: [DB_URL, DB_KEY, PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY],
+
 			environment: {
 				PUBLIC_CLERK_PUBLISHABLE_KEY: PUBLIC_CLERK_PUBLISHABLE_KEY.value
 			},
