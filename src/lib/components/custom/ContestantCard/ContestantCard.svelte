@@ -72,9 +72,9 @@
 						<img
 							src={contestant.imageUrl}
 							alt={`${contestant.name}`}
-							width={200}
-							height={300}
-							class="rounded-md object-cover h-full"
+							width={150}
+							height={225}
+							class="rounded-md object-cover"
 						/>
 					</div>
 				</Dialog.Content>
