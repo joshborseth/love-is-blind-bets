@@ -5,34 +5,9 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "CLERK_SECRET_KEY": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "DB_KEY": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
     "DB_URL": {
       "type": "sst.sst.Secret"
-      "value": string
-    }
-    "PUBLIC_CLERK_PUBLISHABLE_KEY": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "Web": {
-      "type": "sst.aws.SvelteKit"
-      "url": string
-    }
-    "croppedHeadshots": {
-      "name": string
-      "type": "sst.aws.Bucket"
-    }
-    "seedContestants": {
-      "name": string
-      "type": "sst.aws.Function"
-      "url": string
+      "value": any
     }
   }
 }

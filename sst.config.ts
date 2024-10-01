@@ -8,7 +8,7 @@ export default $config({
 			home: 'aws',
 			providers: {
 				aws: {
-					region: 'us-east-1',
+					region: 'us-west-2',
 					version: '6.52.0'
 				},
 				cloudflare: {
