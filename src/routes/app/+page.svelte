@@ -12,6 +12,7 @@
 	import { Menu } from 'lucide-svelte';
 
 	import * as Sheet from '@/components/ui/sheet';
+	import { MATCH_GUESS_POINTS } from '@/constants/points';
 
 	export let data;
 	let selectedMale: Contestants['maleContestants'][number] | null = null;
@@ -27,7 +28,7 @@
 		<div class="flex flex-col gap-2 text-left w-full max-w-xs md:max-w-xl">
 			<h1 class="text-3xl font-bold">Matches</h1>
 			<p class="text-muted-foreground text-sm md:text-base font-light">
-				Choose your matches below!
+				Each correct guess will earn you {MATCH_GUESS_POINTS} point.
 			</p>
 		</div>
 

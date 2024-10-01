@@ -8,6 +8,7 @@
 	import * as Dialog from '@/components/ui/dialog';
 	import { goto } from '$app/navigation';
 	import { LoaderCircle } from 'lucide-svelte';
+	import { MARRIAGE_GUESS_POINTS } from '@/constants/points';
 
 	export let data;
 	const formName = 'marriage-selection-form';
@@ -32,9 +33,9 @@
 	<div class="flex gap-10 flex-col">
 		<div class="w-full flex justify-between md:flex-row flex-col gap-6 md:gap-0 md:items-end">
 			<div class="flex flex-col gap-2">
-				<h1 class="text-3xl font-bold">Who will get married?</h1>
+				<h1 class="text-3xl font-bold">Who Will Get Married?</h1>
 				<p class="text-muted-foreground font-light">
-					Based on the matches you chose previously, who do you think will get married?
+					Each correct marriage guess will earn you {MARRIAGE_GUESS_POINTS} points.
 				</p>
 				<p class="font-bold">
 					You may choose {MAX_GUESSES} couples.

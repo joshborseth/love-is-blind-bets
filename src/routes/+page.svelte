@@ -4,7 +4,7 @@
 	import { Motion } from 'svelte-motion';
 	import { SplitView } from '@/components/layouts/SplitView';
 	let buttonText = 'Get Started';
-	let title = 'Love is Blind Fantasy League';
+	let title = 'Love is Blind';
 	let wordSplit = [...title.split(' '), buttonText];
 	export let data;
 </script>
