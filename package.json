@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.645.0",
 		"@aws-sdk/s3-request-presigner": "^3.645.0",
+		"@clerk/clerk-sdk-node": "^5.0.46",
 		"@libsql/client": "^0.10.0",
 		"bits-ui": "^0.21.13",
 		"clerk-sveltekit": "^0.4.2",

@@ -57,5 +57,13 @@ export const matchesRelations = relations(matches, ({ one }) => ({
 	femaleContestant: one(femaleContestants, {
 		fields: [matches.femaleContestantId],
 		references: [femaleContestants.id]
+	}),
+	user: one(lockedInUsers, {
+		fields: [matches.userId],
+		references: [lockedInUsers.userId]
 	})
+}));
+
+export const lockedInUsersRelations = relations(lockedInUsers, ({ many }) => ({
+	matches: many(matches)
 }));
