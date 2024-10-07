@@ -2,7 +2,7 @@ import { createClerkClient } from '@clerk/clerk-sdk-node';
 import { error } from '@sveltejs/kit';
 import { Resource } from 'sst/resource';
 import { db } from '~/db';
-import { verifyMatches } from '~/utils';
+import { verifyMatches } from '$lib/utils/verifyMatches';
 
 export const load = async ({ params }) => {
 	const clerkClient = createClerkClient({

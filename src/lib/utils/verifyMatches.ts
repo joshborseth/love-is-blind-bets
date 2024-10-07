@@ -1,5 +1,5 @@
-import { db } from '../../db';
-import { femaleContestants, maleContestants, matches } from '../../db/schema';
+import { db } from '../../../server/db';
+import { femaleContestants, maleContestants, matches } from '../../../server/db/schema';
 
 type Match = typeof matches.$inferSelect;
 type MatchWithRelations = Match & {

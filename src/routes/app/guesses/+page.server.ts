@@ -1,4 +1,4 @@
-import { verifyMatches } from '~/utils';
+import { verifyMatches } from '$lib/utils/verifyMatches';
 import { db } from '~/db';
 
 export const load = async (opts) => {
