@@ -49,6 +49,24 @@ export const lockedInUsers = sqliteTable('lockedInUsers', {
 		.notNull()
 });
 
+export const correctCouples = sqliteTable('correctCouples', {
+	id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+	maleContestantId: integer('maleContestantId').notNull(),
+	femaleContestantId: integer('femaleContestantId').notNull(),
+	married: integer('married', { mode: 'boolean' }).default(false)
+});
+
+export const correctCouplesRelations = relations(correctCouples, ({ one }) => ({
+	maleContestant: one(maleContestants, {
+		fields: [correctCouples.maleContestantId],
+		references: [maleContestants.id]
+	}),
+	femaleContestant: one(femaleContestants, {
+		fields: [correctCouples.femaleContestantId],
+		references: [femaleContestants.id]
+	})
+}));
+
 export const matchesRelations = relations(matches, ({ one }) => ({
 	maleContestant: one(maleContestants, {
 		fields: [matches.maleContestantId],

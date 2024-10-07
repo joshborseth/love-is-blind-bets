@@ -2,6 +2,7 @@ import { createClerkClient } from '@clerk/clerk-sdk-node';
 import { error } from '@sveltejs/kit';
 import { Resource } from 'sst/resource';
 import { db } from '~/db';
+import { verifyMatches } from '~/utils';
 
 export const load = async ({ params }) => {
 	const clerkClient = createClerkClient({
@@ -34,11 +35,14 @@ export const load = async ({ params }) => {
 		});
 	}
 
+	const formattedUser = {
+		...user,
+		matches: await verifyMatches(user.matches),
+		fullName: clerkUser.fullName,
+		username: clerkUser.username
+	};
+
 	return {
-		user: {
-			...user,
-			fullName: clerkUser.fullName,
-			username: clerkUser.username
-		}
+		user: formattedUser
 	};
 };

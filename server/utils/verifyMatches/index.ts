@@ -1,0 +1,1 @@
+export { verifyMatches } from './verifyMatches';

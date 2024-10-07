@@ -1,3 +1,4 @@
+import { verifyMatches } from '~/utils';
 import { db } from '~/db';
 
 export const load = async (opts) => {
@@ -9,5 +10,7 @@ export const load = async (opts) => {
 		}
 	});
 
-	return { matches };
+	const verifiedMatches = await verifyMatches(matches);
+
+	return { matches: verifiedMatches };
 };

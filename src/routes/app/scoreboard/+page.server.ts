@@ -14,10 +14,7 @@ export const load = async (opts) => {
 			inArray(
 				lockedInUsers.userId,
 				clerkUsers.data.map((u) => u.id)
-			),
-		with: {
-			matches: true
-		}
+			)
 	});
 
 	const users = clerkUsers.data
