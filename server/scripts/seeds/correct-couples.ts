@@ -27,6 +27,10 @@ const correctCoupleNames = [
 	{
 		maleName: 'Tim',
 		femaleName: 'Alexandra'
+	},
+	{
+		femaleName: 'Brittany',
+		maleName: 'Leo'
 	}
 ] satisfies Array<{
 	maleName: string;
