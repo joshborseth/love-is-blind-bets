@@ -1,6 +1,8 @@
 import { db } from '~/db';
 import { createClerkClient } from '@clerk/clerk-sdk-node';
 import { Resource } from 'sst/resource';
+import { map } from 'radash';
+import { tallyPoints } from '@/utils/tallyPoints.js';
 
 export const load = async (opts) => {
 	const clerkClient = createClerkClient({
@@ -14,14 +16,17 @@ export const load = async (opts) => {
 			inArray(
 				lockedInUsers.userId,
 				clerkUsers.data.map((u) => u.id)
-			)
+			),
+		with: {
+			matches: true
+		}
 	});
 
 	const users = clerkUsers.data
 		.map((user) => {
 			const dbUser = dbUsers.find((u) => u.userId === user.id);
 			const { fullName, username } = user;
-			if (dbUser && dbUser.userId !== opts.locals.session.userId) {
+			if (dbUser) {
 				return {
 					...dbUser,
 					fullName,
@@ -32,8 +37,16 @@ export const load = async (opts) => {
 		.filter(Boolean) as Array<
 		(typeof dbUsers)[number] & Pick<(typeof clerkUsers.data)[number], 'fullName' | 'username'>
 	>;
+	const correctCouples = await db.query.correctCouples.findMany();
+	const usersWithPoints = await map(users, async (u) => {
+		const points = tallyPoints({ correctCouplesArray: correctCouples, matchesToTally: u.matches });
+		return {
+			...u,
+			points
+		};
+	});
 
 	return {
-		users
+		users: usersWithPoints
 	};
 };

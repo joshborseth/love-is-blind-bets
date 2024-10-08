@@ -1,5 +1,9 @@
-import { db } from '../../../server/db';
-import { femaleContestants, maleContestants, matches } from '../../../server/db/schema';
+import {
+	correctCouples,
+	femaleContestants,
+	maleContestants,
+	matches
+} from '../../../server/db/schema';
 
 type Match = typeof matches.$inferSelect;
 type MatchWithRelations = Match & {
@@ -7,19 +11,16 @@ type MatchWithRelations = Match & {
 	femaleContestant: typeof femaleContestants.$inferSelect;
 };
 
-export const verifyMatches = async <T extends Array<Match | MatchWithRelations>>(
-	matchesToVerify: T
-): Promise<
-	T extends Array<infer U>
-		? (U extends MatchWithRelations
-				? MatchWithRelations & { correct: boolean }
-				: Match & { correct: boolean })[]
-		: never
-> => {
-	const correctCouples = await db.query.correctCouples.findMany();
-
+export const verifyMatches = <T extends Array<Match | MatchWithRelations>>(
+	matchesToVerify: T,
+	correctCouplesArray: Array<typeof correctCouples.$inferSelect>
+): T extends Array<infer U>
+	? (U extends MatchWithRelations
+			? MatchWithRelations & { correct: boolean }
+			: Match & { correct: boolean })[]
+	: never => {
 	return matchesToVerify.map((m) => {
-		const findCorrectCouple = correctCouples.find(
+		const findCorrectCouple = correctCouplesArray.find(
 			(c) =>
 				c.maleContestantId === m.maleContestantId && c.femaleContestantId === m.femaleContestantId
 		);

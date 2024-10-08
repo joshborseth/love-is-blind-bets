@@ -4,6 +4,7 @@
 	import { buttonVariants } from '@/components/ui/button';
 	import { cn } from '@/utils';
 	import { page } from '$app/stores';
+	import { Badge } from '@/components/ui/badge';
 	export let data;
 </script>
 
@@ -16,6 +17,7 @@
 		</p>
 	{:else}
 		<h1 class="text-3xl font-bold">Your Guesses</h1>
+		<Badge class="w-fit">Points: {data.points}</Badge>
 		<p class="text-muted-foreground font-light">
 			View what you have guessed. Couples that you have guessed to get married will be highlighted.
 		</p>
@@ -37,10 +39,13 @@
 		{#each data.matches as match}
 			<Card.Root
 				class={cn(
-					'max-w-[17rem]',
+					'max-w-[17rem] relative',
 					match.marriageGuess && 'shadow-md shadow-primary border border-primary'
 				)}
 			>
+				{#if match.correct}
+					<Badge class="absolute -top-2 -right-2">+1</Badge>
+				{/if}
 				<Card.Header class="flex flex-col gap-4">
 					<div class="flex justify-start gap-6 w-full">
 						<img
