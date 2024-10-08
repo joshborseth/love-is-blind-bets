@@ -11,7 +11,6 @@
 	</p>
 	<div class="py-2" />
 </div>
-<div class="py-3" />
 <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 	{#each data.users as user}
 		<Card.Root class="w-full h-full p-0">

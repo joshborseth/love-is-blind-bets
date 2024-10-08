@@ -46,7 +46,9 @@ export const load = async (opts) => {
 		};
 	});
 
+	const sortedUsers = usersWithPoints.sort((a, b) => b.points - a.points);
+
 	return {
-		users: usersWithPoints
+		users: sortedUsers
 	};
 };
