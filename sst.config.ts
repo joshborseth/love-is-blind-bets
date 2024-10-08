@@ -48,8 +48,16 @@ export default $config({
 				from: `./server/cropped-headshots/${c.nameAsFileName}.jpg`
 			}))
 		});
+
+		const seedCorrectCouplesFn = new sst.aws.Function('seedCorrectCouples', {
+			handler: './server/scripts/seeds/correct-couples.handler',
+			url: true,
+			link: [DB_URL, DB_KEY]
+		});
+
 		return {
-			seedContestantsFnUrl: seedContestantsFn.url
+			seedContestantsFnUrl: seedContestantsFn.url,
+			seedCorrectCouplesFnUrl: seedCorrectCouplesFn.url
 		};
 	}
 });

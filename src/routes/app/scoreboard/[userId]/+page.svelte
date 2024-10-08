@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Badge } from '@/components/ui/badge';
 	import { buttonVariants } from '@/components/ui/button';
 	export let data;
 	import * as Card from '@/components/ui/card';
@@ -16,17 +17,22 @@
 		</a>
 
 		<h1 class="text-3xl font-bold">{data.user.fullName}'s Guesses</h1>
+		<Badge class="w-fit">Points: {data.user.points}</Badge>
 	</div>
+
 	<div class="py-2" />
 </div>
 <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 	{#each data.user.matches as match}
 		<Card.Root
 			class={cn(
-				'max-w-[17rem]',
+				'max-w-[17rem] relative',
 				match.marriageGuess && 'shadow-md shadow-primary border border-primary'
 			)}
 		>
+			{#if match.correct}
+				<Badge class="absolute -top-2 -right-2">+1</Badge>
+			{/if}
 			<Card.Header class="flex flex-col gap-4">
 				<div class="flex justify-start gap-6 w-full">
 					<img

@@ -1,3 +1,5 @@
+import { verifyMatches } from '$lib/utils/verifyMatches';
+import { tallyPoints } from '$lib/utils/tallyPoints';
 import { db } from '~/db';
 
 export const load = async (opts) => {
@@ -8,6 +10,9 @@ export const load = async (opts) => {
 			femaleContestant: true
 		}
 	});
+	const correctCouples = await db.query.correctCouples.findMany();
+	const verifiedMatches = verifyMatches(matches, correctCouples);
+	const points = tallyPoints({ matchesToTally: matches, correctCouplesArray: correctCouples });
 
-	return { matches };
+	return { matches: verifiedMatches, points };
 };
