@@ -55,9 +55,16 @@ export default $config({
 			link: [DB_URL, DB_KEY]
 		});
 
+		const seedMarriedCouplesFn = new sst.aws.Function('seedMarriedCouples', {
+			handler: './server/scripts/seeds/married-couples.handler',
+			url: true,
+			link: [DB_URL, DB_KEY]
+		});
+
 		return {
 			seedContestantsFnUrl: seedContestantsFn.url,
-			seedCorrectCouplesFnUrl: seedCorrectCouplesFn.url
+			seedCorrectCouplesFnUrl: seedCorrectCouplesFn.url,
+			seedMarriedCouplesFnUrl: seedMarriedCouplesFn.url
 		};
 	}
 });

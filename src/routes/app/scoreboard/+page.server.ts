@@ -4,7 +4,7 @@ import { Resource } from 'sst/resource';
 import { map } from 'radash';
 import { tallyPoints } from '@/utils/tallyPoints.js';
 
-export const load = async (opts) => {
+export const load = async () => {
 	const clerkClient = createClerkClient({
 		secretKey: Resource.CLERK_SECRET_KEY.value
 	});

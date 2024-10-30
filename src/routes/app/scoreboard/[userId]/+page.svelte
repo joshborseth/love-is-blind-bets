@@ -3,6 +3,7 @@
 	import { buttonVariants } from '@/components/ui/button';
 	export let data;
 	import * as Card from '@/components/ui/card';
+	import { MARRIAGE_GUESS_POINTS, MATCH_GUESS_POINTS } from '@/constants/points.js';
 	import { cn } from '@/utils';
 	import { ArrowLeft } from 'lucide-svelte';
 </script>
@@ -31,7 +32,13 @@
 			)}
 		>
 			{#if match.correct}
-				<Badge class="absolute -top-2 -right-2">+1</Badge>
+				{#if match.correctMarriageGuess}
+					<Badge class="absolute -top-2 -right-2"
+						>+{MARRIAGE_GUESS_POINTS + MATCH_GUESS_POINTS}</Badge
+					>
+				{:else}
+					<Badge class="absolute -top-2 -right-2">+{MATCH_GUESS_POINTS}</Badge>
+				{/if}
 			{/if}
 			<Card.Header class="flex flex-col gap-4">
 				<div class="flex justify-start gap-6 w-full">
