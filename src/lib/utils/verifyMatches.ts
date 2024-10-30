@@ -16,8 +16,8 @@ export const verifyMatches = <T extends Array<Match | MatchWithRelations>>(
 	correctCouplesArray: Array<typeof correctCouples.$inferSelect>
 ): T extends Array<infer U>
 	? (U extends MatchWithRelations
-			? MatchWithRelations & { correct: boolean }
-			: Match & { correct: boolean })[]
+			? MatchWithRelations & { correct: boolean; correctMarriageGuess: boolean }
+			: Match & { correct: boolean; correctMarriageGuess: boolean })[]
 	: never => {
 	return matchesToVerify.map((m) => {
 		const findCorrectCouple = correctCouplesArray.find(
@@ -25,9 +25,12 @@ export const verifyMatches = <T extends Array<Match | MatchWithRelations>>(
 				c.maleContestantId === m.maleContestantId && c.femaleContestantId === m.femaleContestantId
 		);
 
+		const correctMarriageGuess = findCorrectCouple?.married && m.marriageGuess;
+
 		return {
 			...m,
-			correct: Boolean(findCorrectCouple)
+			correct: Boolean(findCorrectCouple),
+			correctMarriageGuess: Boolean(correctMarriageGuess)
 		};
 		//eslint-disable-next-line @typescript-eslint/no-explicit-any
 	}) as any;

@@ -39,5 +39,10 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "seedMarriedCouples": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
   }
 }

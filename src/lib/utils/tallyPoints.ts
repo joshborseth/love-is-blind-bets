@@ -1,4 +1,4 @@
-import { MATCH_GUESS_POINTS } from '@/constants/points';
+import { MATCH_GUESS_POINTS, MARRIAGE_GUESS_POINTS } from '@/constants/points';
 import { correctCouples, matches } from '~/db/schema';
 
 export const tallyPoints = ({
@@ -16,6 +16,9 @@ export const tallyPoints = ({
 		);
 		if (findCorrectCouple) {
 			points += MATCH_GUESS_POINTS;
+			if (findCorrectCouple.married && m.marriageGuess) {
+				points += MARRIAGE_GUESS_POINTS;
+			}
 		}
 	});
 
